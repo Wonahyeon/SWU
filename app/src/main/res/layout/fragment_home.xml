@@ -23,13 +23,21 @@
         android:text="알약 이름"/>
 
     <TextView
+        android:id="@+id/text_bin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="60dp"
         android:textSize="15dp"
-        android:text="약 이름 버리세요.">
-    </TextView>
+        android:text="약 이름 버리세요."/>
+
+    <ImageView
+        android:id="@+id/img_bin"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/bin"/>
+
+
 
 
 </LinearLayout>
