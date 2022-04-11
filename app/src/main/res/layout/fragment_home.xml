@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp">
         <TableRow
-            android:background="#"
             android:layout_gravity="center_vertical"
             android:layout_margin="15dp">
             <CalendarView
@@ -45,11 +44,14 @@
                 android:layout_weight="1"
                 android:text="약 이름 버리세요!"
                 android:textSize="20dp"/>
-            <ImageView
+            <ImageButton
+                android:background="@color/white"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:src="@drawable/bin"/>
+                android:scaleType="fitCenter"
+                android:src="@drawable/bin"
+                android:id="@+id/ImgBin"/>
         </TableRow>
 
     </TableLayout>
