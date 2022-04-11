@@ -6,53 +6,30 @@
     android:orientation="vertical"
     tools:context=".Fragment.HomeFragment">
 
-    <TableLayout
-        android:layout_width="match_parent"
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
-        <TableRow
-            android:background="#"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="15dp">
-            <CalendarView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:id="@+id/calenarView"/>
-        </TableRow>
-        <TableRow
-            android:layout_margin="20dp">
-            <TextView
-                android:layout_marginLeft="30dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="알약 이름"
-                android:textSize="20dp"/>
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="30dp"
-                />
-        </TableRow>
-        <TableRow
-            android:layout_margin="20dp">
-            <TextView
-                android:layout_marginLeft="30dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="약 이름 버리세요!"
-                android:textSize="20dp"/>
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:src="@drawable/bin"/>
-        </TableRow>
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
 
-    </TableLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="60dp"
+        android:textSize="15dp"
+        android:text="알약 이름"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="60dp"
+        android:textSize="15dp"
+        android:text="약 이름 버리세요.">
+    </TextView>
 
 
 </LinearLayout>
