@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.ImgBin).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                 show();
+                show();
             }
         });
     }
