@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="*"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="20dp">
         <TableRow
             android:layout_margin="15dp">
             <CalendarView
@@ -20,7 +20,7 @@
                 android:id="@+id/calenarView"/>
         </TableRow>
         <TableRow
-            android:layout_margin="20dp">
+            android:layout_margin="10dp">
             <TextView
                 android:layout_marginLeft="30dp"
                 android:layout_width="0dp"
@@ -31,23 +31,23 @@
             <ImageView
                 android:layout_marginLeft="30dp"
                 android:layout_width="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.22"
                 android:layout_height="30dp"
                 android:src="@drawable/pl"/>
             <ImageView
                 android:layout_width="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.22"
                 android:layout_height="30dp"
                 android:src="@drawable/pm"/>
             <ImageView
                 android:layout_marginRight="30dp"
                 android:layout_width="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.22"
                 android:layout_height="30dp"
                 android:src="@drawable/pr"/>
         </TableRow>
         <TableRow
-            android:layout_margin="20dp">
+            android:layout_margin="10dp">
             <TextView
                 android:layout_marginLeft="30dp"
                 android:layout_width="0dp"
