@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.cookandroid.swu.Fragment.EboxFragment;
 import com.cookandroid.swu.Fragment.HomeFragment;
@@ -16,7 +18,8 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
     Fragment HomeFragment,SearchFragment,EboxFragment,PlistFragment,SetFragment;
-
+    private final long finishTime = 1000;
+    private long pressTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,4 +60,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - pressTime;
+        if (0 <= intervalTime && finishTime >= intervalTime){
+            finish();
+        }
+        else {
+            pressTime = tempTime;
+            Toast.makeText(getApplicationContext(),"한번더 누르시면 앱이 종료됩니다.",Toast.LENGTH_SHORT).show();
+        }
+    }
 }
