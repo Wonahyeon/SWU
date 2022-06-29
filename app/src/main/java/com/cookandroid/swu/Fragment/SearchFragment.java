@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.cookandroid.swu.MainActivity;
+import com.cookandroid.swu.DsSearch;
 import com.cookandroid.swu.PillSearch;
 import com.cookandroid.swu.R;
 
@@ -25,6 +25,14 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent =  new Intent(getActivity(), PillSearch.class);
+                startActivity(intent);
+            }
+        });
+        drugstore = (TextView) v.findViewById(R.id.search_drugstore);
+        drugstore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DsSearch.class);
                 startActivity(intent);
             }
         });

@@ -17,7 +17,7 @@
         android:padding="22dp"
         android:background="@drawable/s_custom_button"/>
     <TextView
-        android:id="@+id/search_pharmacy"
+        android:id="@+id/search_drugstore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="   약국 정보   "
