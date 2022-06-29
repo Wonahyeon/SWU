@@ -20,7 +20,8 @@
                 android:id="@+id/calenarView"/>
         </TableRow>
         <TableRow
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            android:id="@+id/list_pill">
             <TextView
                 android:layout_marginLeft="30dp"
                 android:layout_width="0dp"

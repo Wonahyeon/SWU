@@ -2,7 +2,6 @@ package com.cookandroid.swu.Fragment;
 
 import android.app.AlertDialog;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +24,7 @@ import com.cookandroid.swu.R;
 
 public class HomeFragment extends Fragment {
     Context context;
+
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,6 +37,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 show();
+            }
+        });
+        view.findViewById(R.id.list_pill).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //먹는 시간 기입
             }
         });
     }
@@ -52,8 +59,11 @@ public class HomeFragment extends Fragment {
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Toast.makeText(context,"우리집 구급함으로 이동합니다.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"우리집 구급함으로 이동합니다.",Toast.LENGTH_SHORT).show();
                 // 우리집 구급함으로 이동
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container,new EboxFragment());
+                transaction.commit();
             }
         });
         builder.show();
