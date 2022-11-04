@@ -28,7 +28,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SWU">
-        <activity android:name=".DsSearch"></activity>
+        <activity
+            android:name=".EboxAdd"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".DsSearch" />
         <activity android:name=".PillSearch" />
         <activity android:name=".MainActivity">
             <intent-filter>
