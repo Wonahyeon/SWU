@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp">
         <TableRow
-            android:background="#"
+            android:background="#fff"
             android:layout_gravity="center_vertical"
             android:layout_margin="15dp">
             <CalendarView
