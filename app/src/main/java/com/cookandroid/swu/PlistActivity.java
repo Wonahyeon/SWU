@@ -4,8 +4,6 @@ package com.cookandroid.swu;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
@@ -26,10 +23,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,7 +41,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.cookandroid.swu.Fragment.PlistFragment;
 
@@ -74,7 +73,6 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
     Intent intentC;
     Bitmap bitmap = null;
     Bitmap sideInversionImg = null;
-
 
 
 
@@ -421,17 +419,12 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
 
                 PlistFragment plistFragment = new PlistFragment();
 
-                Bundle bundle = new Bundle();
-                // 데이터 담기
-                bundle.putString("name", name);
-                bundle.putString("memo", memo);
-                bundle.putString("day", day);
-                bundle.putInt("listCount", listCount);
-                bundle.putParcelable("bitmap", bitmap);
+                plistFragment.name = name;
+                plistFragment.day = day;
+                plistFragment.memo = memo;
+                plistFragment.listCount = listCount;
+                plistFragment.bitmap = bitmap;
 
-                // 프래그먼트에 데이터 넘기기
-                plistFragment.setArguments(bundle);
-                setResult(RESULT_OK);
                 finish();
             }
         });
@@ -447,12 +440,6 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
         plistListTime = findViewById(R.id.plistListTime);
         plistBtnTimeOk = findViewById(R.id.plistBtnTimeOk);
     }
-
-
-
-
-
-
 
 
 }

@@ -26,39 +26,13 @@
         android:backgroundTintMode="screen"
         android:rotation="270"
         android:src="@drawable/pill1_cut" />
-
-    <LinearLayout
+    <ImageButton
+        android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_weight="1">
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:rotation="90"
-            android:src="@drawable/pill3"
-            android:backgroundTintMode="screen"/>
-        <ImageButton
-            android:visibility="gone"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:rotation="90"
-            android:src="@drawable/pill3"
-            android:backgroundTintMode="screen"/>
-        <ImageButton
-            android:visibility="gone"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:rotation="90"
-            android:src="@drawable/pill3"
-            android:backgroundTintMode="screen"/>
-        <ImageButton
-            android:visibility="gone"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:rotation="90"
-            android:src="@drawable/pill3"
-            android:backgroundTintMode="screen"/>
-    </LinearLayout>
+        android:backgroundTintMode="screen"
+        android:rotation="270"
+        android:src="@drawable/pill3" />
     <ImageButton
         android:layout_weight="1"
         android:layout_width="0dp"

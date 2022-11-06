@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:id="@+id/topLayout">
+    android:id="@+id/fragmentPlist">
 
     <TextView
         android:id="@+id/txtPlist"
@@ -15,7 +15,7 @@
         android:textSize="20dp"
         android:textStyle="bold" />
     <ListView
-        android:layout_below="@+id/img"
+        android:layout_below="@+id/txtPlist"
         android:id="@+id/lvPlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
