@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cookandroid.swu">
 
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+
+    </queries>
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -10,8 +17,14 @@
         android:name="com.cookandroid.swu.permission.MAPS_RECEIVE"
         android:label="signature" />
 
-    <uses-permission android:name="android.permission.INTERNET " />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET " />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -28,14 +41,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SWU">
-
         <activity
             android:name=".EboxAdd"
             android:exported="false"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".DsSearch" />
         <activity android:name=".PillSearch" />
-        <activity android:name=".PlusPill"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,18 +55,20 @@
             </intent-filter>
         </activity>
 
-        <!--firebase 설정-->
-        <service
-            android:name=".MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBxXl-NSo-cqq-VpZGb2WhSAfCRx4Kj5H0" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.cookandroid.swu.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/external" />
+        </provider>
+
     </application>
 
 </manifest>
