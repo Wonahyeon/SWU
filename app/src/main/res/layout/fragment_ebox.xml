@@ -17,7 +17,6 @@
         android:layout_height="50dp"
         android:text="+"
         android:textSize="30dp"
-        android:background="@drawable/circle"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="10dp"/>

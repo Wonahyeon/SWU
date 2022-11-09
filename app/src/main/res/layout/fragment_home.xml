@@ -4,67 +4,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".Fragment.HomeFragment">
 
+    <CalendarView
+         android:id="@+id/calendarView"
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"/>
     <TableLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:stretchColumns="*"
-        android:layout_marginTop="20dp">
-        <TableRow
-            android:layout_margin="15dp">
-            <CalendarView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/calenarView"/>
-        </TableRow>
-        <TableRow
-            android:layout_margin="10dp"
-            android:id="@+id/list_pill">
-            <TextView
-                android:layout_marginLeft="30dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="알약 이름"
-                android:textSize="20dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp">
+        <TableRow>
+        <TextView
+            android:id="@+id/drugName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="알약 이름"
+            android:textSize="20dp" />
+            <FrameLayout
+                android:id="@+id/drugTime">
             <ImageView
-                android:layout_marginLeft="30dp"
-                android:layout_width="0dp"
-                android:layout_weight="0.22"
-                android:layout_height="30dp"
+                android:id="@+id/pl"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="170dp"
                 android:src="@drawable/pl"/>
             <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="0.22"
-                android:layout_height="30dp"
+                android:id="@+id/pm"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="191dp"
                 android:src="@drawable/pm"/>
             <ImageView
-                android:layout_marginRight="30dp"
-                android:layout_width="0dp"
-                android:layout_weight="0.22"
-                android:layout_height="30dp"
+                android:id="@+id/pr"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="212dp"
                 android:src="@drawable/pr"/>
+            </FrameLayout>
         </TableRow>
-        <TableRow
-            android:layout_margin="10dp">
-            <TextView
-                android:layout_marginLeft="30dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="약 이름 버리세요!"
-                android:textSize="20dp"/>
-
-            <ImageView
-                android:id="@+id/ImgBin"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:src="@drawable/bin"/>
+    </TableLayout>
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp">
+        <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="약 이름 버리세요!"
+            android:textSize="20dp"
+            android:layout_marginRight="128dp"/>
+        <ImageView
+            android:id="@+id/ImgBin"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/bin"/>
         </TableRow>
-
     </TableLayout>
 
 

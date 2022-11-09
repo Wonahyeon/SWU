@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.cookandroid.swu.Fragment.EboxFragment;
@@ -14,17 +17,43 @@ import com.cookandroid.swu.Fragment.HomeFragment;
 import com.cookandroid.swu.Fragment.PlistFragment;
 import com.cookandroid.swu.Fragment.SearchFragment;
 import com.cookandroid.swu.Fragment.SetFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
     Fragment HomeFragment,SearchFragment,EboxFragment,PlistFragment,SetFragment;
     private final long finishTime = 1000;
     private long pressTime = 0;
+    EditText etToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        etToken = findViewById(R.id.etToken);
+        //fcm
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            System.out.println("Fetching FCM registration token failed");
+                            return;
+                        }
 
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        System.out.println(token);
+                        Toast.makeText(MainActivity.this, "Your device registration token is" + token, Toast.LENGTH_SHORT).show();
+
+                        etToken.setText(token);
+                    }
+                });
+
+        //네비게이션바
         HomeFragment = new HomeFragment();
         SearchFragment = new SearchFragment();
         EboxFragment = new EboxFragment();
@@ -32,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         SetFragment = new SetFragment();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,HomeFragment).commit();
-        //네비게이션바
+
         NavigationBarView navigationBarView = findViewById(R.id.bottom_navigation);
         navigationBarView.setOnItemSelectedListener(new  NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -52,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.nav_set:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SetFragment).commit();
-                        return true;
+                         return true;
                 }
                 return false;
             }
@@ -60,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //뒤로 가기
     @Override
     public void onBackPressed() {
         long tempTime = System.currentTimeMillis();

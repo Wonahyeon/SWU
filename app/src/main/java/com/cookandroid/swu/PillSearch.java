@@ -22,13 +22,15 @@ public class PillSearch extends AppCompatActivity {
         camera = findViewById(R.id.camera);
         edtSearch = findViewById(R.id.edtSearch);
         web = findViewById(R.id.webView);
+        web.setWebViewClient(new PillWebViewClient());
+
         edtSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 camera.setImageResource(R.drawable.search);
             }
         });
-        web.setWebViewClient(new PillWebViewClient());
+
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
