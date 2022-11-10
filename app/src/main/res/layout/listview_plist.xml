@@ -7,44 +7,84 @@
     android:gravity="fill_horizontal|center_horizontal">
 
     <ImageView
-        android:id="@+id/plistListViewImg"
+        android:id="@+id/plistLvImg"
         android:layout_weight="1"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="100dp"
         android:src="@drawable/ic_launcher_background"/>
     <TextView
-        android:id="@+id/plistListTextName"
+        android:id="@+id/plistLvtName"
         android:layout_weight="1"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:textStyle="bold"
+        android:gravity="center"
         android:text="약 이름" />
 
-    <ImageButton
-        android:layout_weight="1"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:backgroundTintMode="screen"
-        android:rotation="270"
-        android:src="@drawable/pill1_cut" />
-    <ImageButton
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:backgroundTintMode="screen"
-        android:rotation="270"
-        android:src="@drawable/pill3" />
-    <ImageButton
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:src="@drawable/pill1_cut"
-        android:backgroundTintMode="screen"
-        android:rotation="90"/>
+        android:layout_height="match_parent"
+        android:layout_weight="3">
+        <Button
+            android:visibility="gone"
+            android:textSize="10dp"
+            android:id="@+id/plistLvTime1"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/pill1"
+            android:scaleType="fitXY" />
+        <Button
+            android:visibility="gone"
+            android:textSize="10dp"
+            android:id="@+id/plistLvTime2"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:background="@drawable/pill2"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+        <Button
+            android:visibility="gone"
+            android:textSize="10dp"
+            android:id="@+id/plistLvTime3"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/pill2"
+            android:scaleType="fitXY"/>
+        <Button
+            android:visibility="gone"
+            android:textSize="10dp"
+            android:id="@+id/plistLvTime4"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/pill2"
+            android:scaleType="fitXY"/>
+        <Button
+            android:visibility="gone"
+            android:textSize="10dp"
+            android:id="@+id/plistLvTime5"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/pill2"
+            android:scaleType="fitXY"/>
+        <Button
+            android:visibility="gone"
+            android:textSize="10dp"
+            android:id="@+id/plistLvTime6"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/pill3"
+            android:scaleType="fitXY"/>
+    </LinearLayout>
+
     <ImageView
-        android:layout_weight="0.5"
-        android:layout_marginLeft="10dp"
+        android:padding="10dp"
+        android:layout_weight="1"
         android:layout_width="0dp"
-        android:layout_gravity=""
         android:layout_height="50dp"
         android:src="@drawable/menu"/>
 

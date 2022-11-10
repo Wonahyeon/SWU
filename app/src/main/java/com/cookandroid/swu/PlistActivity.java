@@ -53,10 +53,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class PlistActivity extends AppCompatActivity implements AdapterPlistAlertTime.ListBtnClickListener{
-    Integer listCount = 1;
+    public static Integer plListCount = 1;
     ListView plistListTime;
     AdapterPlistAlertTime adapter;
-    String name="", memo="", day="", imagePath="";
+    public static String plName="", plMemo="", plDay="";
+    String imagePath="";
     ImageButton plistBtnPicture;
     EditText plistEdtName, plistEdtRealMemo;
     Button btnDay[] = new Button[7];
@@ -65,14 +66,14 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
     Button plistBtnTime, plistBtnSave, plistBtnTimeOk;
     // TimePickerDialog를 띄웠을 때 시간 설정
     int alarmHour = 0, alarmMinute = 0;
-    String[] time = new String[6];
+    public static String[] plTime = {"", "", "", "", "", ""};
+    String[] time = {"", "", "", "", "", ""};
     // 카메라
     final int CAMERA = 100; // 카메라 선택 시 인텐트로 보내는 값
     final int GALLERY = 101; // 갤러리 선택 시 인텐트로 보내는 값
     Dialog dialogCamera;
     Intent intentC;
-    Bitmap bitmap = null;
-    Bitmap sideInversionImg = null;
+    public static Bitmap bitmap = null;
 
 
 
@@ -110,13 +111,11 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
                         bitmap = BitmapFactory.decodeFile(imagePath);
                         cursor.close();
                     }
-
                     // InputStream으로 이미지 세팅하기
                     try {
                         InputStream inputStream = getContentResolver().openInputStream(data.getData());
                         bitmap = BitmapFactory.decodeStream(inputStream);
                         inputStream.close();
-                        plistBtnPicture.setImageBitmap(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -127,14 +126,15 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
                     // 이미지 축소 정도. 원 크기에서 1/inSampleSize로 축소
                     options.inSampleSize = 5;
                     bitmap = BitmapFactory.decodeFile(imagePath, options);
+
+                    // 사진이 왼쪽으로 90도 회전되어 나와서 오른쪽으로 90도 회전
+                    Matrix rotateMatrix = new Matrix();
+                    rotateMatrix.postRotate(90);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                            bitmap.getWidth(), bitmap.getHeight(), rotateMatrix, false);
                     break;
             }
-            // 사진이 왼쪽으로 90도 회전되어 나와서 오른쪽으로 90도 회전
-            Matrix rotateMatrix = new Matrix();
-            rotateMatrix.postRotate(90);
-            sideInversionImg = Bitmap.createBitmap(bitmap, 0, 0,
-                    bitmap.getWidth(), bitmap.getHeight(), rotateMatrix, false);
-            plistBtnPicture.setImageBitmap(sideInversionImg);
+            plistBtnPicture.setImageBitmap(bitmap);
             dialogCamera.dismiss();
         }
     }
@@ -194,28 +194,29 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.itemPlist1:
+                // 버튼 6개를 xml에 선언하고 setvisible 바꾸는 거
                 plistBtnTime.setText("1");
-                listCount = 1;
+                plListCount = 1;
                 return true;
             case R.id.itemPlist2:
                 plistBtnTime.setText("2");
-                listCount = 2;
+                plListCount = 2;
                 return true;
             case R.id.itemPlist3:
                 plistBtnTime.setText("3");
-                listCount = 3;
+                plListCount = 3;
                 return true;
             case R.id.itemPlist4:
                 plistBtnTime.setText("4");
-                listCount = 4;
+                plListCount = 4;
                 return true;
             case R.id.itemPlist5:
                 plistBtnTime.setText("5");
-                listCount = 5;
+                plListCount = 5;
                 return true;
             case R.id.itemPlist6:
                 plistBtnTime.setText("6");
-                listCount = 6;
+                plListCount = 6;
                 return true;
         }
         return false;
@@ -234,7 +235,7 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
         }
 
         // 아이템 생성 : listCount 개수만큼
-        for(j=1;j<=listCount;j++){
+        for(j=1;j<=plListCount;j++){
             final int k = j;
             item = new ListViewItemPlistAlertTime();
             item.setTitle("시간");
@@ -254,6 +255,7 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
                 new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int min) {
+                        // time 배열의 첫 번째 값이 비어있지 않으면 모두 초기화
                         String amPm = "";
                         String minTen = "";
 
@@ -287,6 +289,7 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
                         }
                     }
                 }, alarmHour, alarmMinute, false);
+
         timePickerDialog.show();
     }
 
@@ -337,13 +340,14 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
                     count[index] += 1;
                     if(count[index] % 2 == 1) {
                         btnDay[index].setSelected(true);
-                        day += btnDay[index].getText().toString();
-                        System.out.println(day);
+                        plDay += btnDay[index].getText().toString();
+                        System.out.println(plDay);
                     }
                     else if(count[index] % 2 == 0) {
                         btnDay[index].setSelected(false);
-                        day = day.replace(btnDay[index].getText().toString(), "");
-                        System.out.println(day);
+                        count[index] = 0;
+                        plDay = plDay.replace(btnDay[index].getText().toString(), "");
+                        System.out.println(plDay);
                     }
                 }
             });
@@ -414,16 +418,24 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
             @Override
             public void onClick(View view) {
                 // 약 이름, 메모 저장
-                name = plistEdtName.getText().toString();
-                memo = plistEdtRealMemo.getText().toString();
+                plName = plistEdtName.getText().toString();
+                plMemo = plistEdtRealMemo.getText().toString();
+                Bitmap plBitmap = null;
+                if(bitmap == null) plBitmap = bitmap;
+                else plBitmap = bitmap;
+                for(int i = 0;i < 6; i++){
+                    plTime[i] = time[i];
+                }
 
-                PlistFragment plistFragment = new PlistFragment();
+                PlistFragment plistFragment = (PlistFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                plistFragment.addItem(plBitmap, plName, plTime[0], plTime[1], plTime[2], plTime[3], plTime[4], plTime[5]);
 
-                plistFragment.name = name;
-                plistFragment.day = day;
-                plistFragment.memo = memo;
-                plistFragment.listCount = listCount;
-                plistFragment.bitmap = bitmap;
+                // 11/09
+                // fragment에 listview 추가 부분은 대충 기술구현을 했지만
+                // bitmap, timebutton 등이 초기화가 되지 않고
+                // 이전에 쓰인 값이 그대로 쓰여지는 문제가 발생
+                // staic으로 구현한 것이 문제가 되는 것이라 예상
+                // add item을 할 때마다 초기화를 해주거나 다른 변수를 선언해야 할 듯
 
                 finish();
             }

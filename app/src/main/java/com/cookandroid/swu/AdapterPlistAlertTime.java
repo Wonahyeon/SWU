@@ -27,7 +27,6 @@ public class AdapterPlistAlertTime extends ArrayAdapter implements View.OnClickL
     private ListBtnClickListener listBtnClickListener;
 
     // AdapterPlistAlertTime 생성자. 마지막에 ListBtnClickListener 추가
-
     public AdapterPlistAlertTime(@NonNull Context context, int resource,
                                  ArrayList<ListViewItemPlistAlertTime> list, ListBtnClickListener clickListener) {
         super(context, resource, list);
@@ -77,5 +76,4 @@ public class AdapterPlistAlertTime extends ArrayAdapter implements View.OnClickL
         if(this.listBtnClickListener != null)
             this.listBtnClickListener.onListBtnClick((int)view.getTag());
     }
-
 }

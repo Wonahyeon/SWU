@@ -15,20 +15,21 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 
 
+import com.cookandroid.swu.AdapterPlistTime;
+import com.cookandroid.swu.ListViewItemPlistTime;
 import com.cookandroid.swu.PlistActivity;
 import com.cookandroid.swu.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class PlistFragment extends Fragment implements View.OnClickListener {
+public class PlistFragment extends Fragment{
     ListView lvPlist;
     FloatingActionButton fabAdd;
-    public static String name, memo, day;
-    public static Integer listCount;
-    RelativeLayout fragmentPlist;
-    public static Bitmap bitmap;
-    final int REQUESTCODE_REVIEW_WRITE = 3;
+//    final int REQUESTCODE_REVIEW_WRITE = 3;
+    public static AdapterPlistTime plAdapter;
+
 
 
     @Nullable
@@ -38,33 +39,26 @@ public class PlistFragment extends Fragment implements View.OnClickListener {
 
         fabAdd = view.findViewById(R.id.fabAdd);
         lvPlist = view.findViewById(R.id.lvPlist);
-        fragmentPlist = view.findViewById(R.id.fragmentPlist);
+
+        plAdapter = new AdapterPlistTime();
+        lvPlist.setAdapter(plAdapter);
 
         // 복용약 리스트 추가하기
-        fabAdd.setOnClickListener(this);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PlistActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fabAdd:
-                Intent intent = new Intent(getActivity(), PlistActivity.class);
-//                startActivity(intent);
-                startActivityForResult(intent, REQUESTCODE_REVIEW_WRITE); ;
-                break;
-        }
+    // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
+    public static void addItem(Bitmap icon, String name, String t1, String t2, String t3, String t4, String t5, String t6) {
+        plAdapter.addItem(icon, name, t1, t2, t3, t4, t5, t6);
+        plAdapter.notifyDataSetChanged();
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUESTCODE_REVIEW_WRITE) {
-            if (resultCode == RESULT_OK) {
-
-            }
-        }
-    }
-
-
 }
