@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.nav_set:
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SetFragment).commit();
-                         return true;
+                        return true;
                 }
                 return false;
             }

@@ -35,15 +35,17 @@ import static androidx.navigation.Navigation.setViewNavController;
 
 public class HomeFragment extends Fragment {
     Context context;
+
     @Override
-    public View onCreateView(LayoutInflater inflater,ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
-    public void onViewCreated(@NonNull View view, Bundle savedInstancedState){
-        super.onViewCreated(view,savedInstancedState);
-        context = ((MainActivity)getActivity()).getApplicationContext();
-        view.findViewById(R.id.ImgBin).setOnClickListener(new View.OnClickListener(){
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstancedState) {
+        super.onViewCreated(view, savedInstancedState);
+        context = ((MainActivity) getActivity()).getApplicationContext();
+        view.findViewById(R.id.ImgBin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -52,13 +54,13 @@ public class HomeFragment extends Fragment {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context,"확인되었습니다.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "확인되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context,"우리집 구급함으로 이동합니다.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "우리집 구급함으로 이동합니다.", Toast.LENGTH_SHORT).show();
                         // 우리집 구급함으로 이동
 
                         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -73,13 +75,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //먹는 시간 기입을 위해서 plus_pill 로 이동
-                Intent intent =  new Intent(getActivity(), PlusPill.class);
+                Intent intent = new Intent(getActivity(), PlusPill.class);
                 startActivity(intent);
             }
         });
     }
-
-
 
 
 }

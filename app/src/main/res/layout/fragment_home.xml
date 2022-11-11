@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp">
+        android:layout_marginLeft="45dp">
         <TableRow>
         <TextView
             android:id="@+id/drugName"
@@ -47,12 +47,13 @@
                 android:src="@drawable/pr"/>
             </FrameLayout>
         </TableRow>
+
     </TableLayout>
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp">
+        android:layout_marginLeft="45dp">
         <TableRow>
         <TextView
             android:layout_width="wrap_content"
