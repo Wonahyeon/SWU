@@ -228,7 +228,7 @@ public class PlistActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plist);
-        setTitle("복용약리스트 추가");
+        setTitle("복용 약 리스트 추가");
 
         // findViewById
         fvbi();
@@ -324,7 +324,7 @@ public class PlistActivity extends AppCompatActivity {
                             else hourTen = Integer.toString(hour);
 
                             time[0] = hourTen+" : "+minTen+" ";
-                            btnTime[0].setText("복용 시간 1: "+time[0]);
+                            btnTime[0].setText("복용 시간 1         "+time[0]);
                         }
                     }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
@@ -347,7 +347,7 @@ public class PlistActivity extends AppCompatActivity {
                                 else hourTen = Integer.toString(hour);
 
                                 time[1] = hourTen+" : "+minTen+" ";
-                                btnTime[1].setText("복용 시간 2: "+time[1]);
+                                btnTime[1].setText("복용 시간 2         "+time[1]);
                             }
                         }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
@@ -370,7 +370,7 @@ public class PlistActivity extends AppCompatActivity {
                                 else hourTen = Integer.toString(hour);
 
                                 time[2] = hourTen+" : "+minTen+" ";
-                                btnTime[2].setText("복용 시간 3: "+time[2]);
+                                btnTime[2].setText("복용 시간 3         "+time[2]);
                             }
                         }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
@@ -393,7 +393,7 @@ public class PlistActivity extends AppCompatActivity {
                                 else hourTen = Integer.toString(hour);
 
                                 time[3] = hourTen+" : "+minTen+" ";
-                                btnTime[3].setText("복용 시간 4: "+time[3]);
+                                btnTime[3].setText("복용 시간 4         "+time[3]);
                             }
                         }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
@@ -416,7 +416,7 @@ public class PlistActivity extends AppCompatActivity {
                                 else hourTen = Integer.toString(hour);
 
                                 time[4] = hourTen+" : "+minTen+" ";
-                                btnTime[4].setText("복용 시간 5: "+time[4]);
+                                btnTime[4].setText("복용 시간 5         "+time[4]);
                             }
                         }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
@@ -439,7 +439,7 @@ public class PlistActivity extends AppCompatActivity {
                                 else hourTen = Integer.toString(hour);
 
                                 time[5] = hourTen+" : "+minTen+" ";
-                                btnTime[5].setText("복용 시간 6: "+time[5]);
+                                btnTime[5].setText("복용 시간 6         "+time[5]);
                             }
                         }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
@@ -462,7 +462,7 @@ public class PlistActivity extends AppCompatActivity {
                 PlistFragment plistFragment = (PlistFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                 plistFragment.addItem(plBitmap, plName, plMemo, plDay);
 
-
+                plDay = "";
                 finish();
             }
         });

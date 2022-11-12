@@ -1,27 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/txtPlist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="복용약 리스트"
-        android:textSize="20dp"
-        android:textStyle="bold" />
     <ListView
-        android:layout_below="@+id/txtPlist"
         android:id="@+id/lvPlist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtPlist" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#b5d692"
+        app:backgroundTint="#b5d692"
         android:clickable="true"
         android:id="@+id/fabAdd"
         android:layout_marginRight="10dp"

@@ -62,10 +62,18 @@ public class PlistFragment extends Fragment{
         return view;
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("복용약 리스트");
+    }
+
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
     public static void addItem(Bitmap icon, String name, String memo, String day) {
         plAdapter.addItem(icon, name, memo, day);
         plAdapter.notifyDataSetChanged();
     }
+
 
 }
