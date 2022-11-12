@@ -4,9 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:baselineAligned="true"
-    android:gravity="fill_horizontal|center_horizontal">
+    android:gravity="fill_horizontal|center_horizontal"
+    android:id="@+id/plLinear">
 
     <ImageView
+        android:layout_marginLeft="10dp"
         android:id="@+id/plistLvImg"
         android:layout_weight="1"
         android:layout_width="0dp"
@@ -35,7 +37,7 @@
             android:background="@drawable/pill1"
             android:scaleType="fitXY" />
         <Button
-            android:visibility="gone"
+            android:visibility="visible"
             android:textSize="10dp"
             android:id="@+id/plistLvTime2"
             android:layout_weight="1"
@@ -80,13 +82,5 @@
             android:background="@drawable/pill3"
             android:scaleType="fitXY"/>
     </LinearLayout>
-
-    <ImageView
-        android:padding="10dp"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:src="@drawable/menu"/>
-
 
 </LinearLayout>

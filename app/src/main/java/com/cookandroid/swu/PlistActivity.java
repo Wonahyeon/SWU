@@ -23,23 +23,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TimePicker;
 
 import com.cookandroid.swu.Fragment.PlistFragment;
@@ -48,14 +42,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
-public class PlistActivity extends AppCompatActivity implements AdapterPlistAlertTime.ListBtnClickListener{
+public class PlistActivity extends AppCompatActivity {
     public static Integer plListCount = 1;
-    ListView plistListTime;
-    AdapterPlistAlertTime adapter;
     public static String plName="", plMemo="", plDay="";
     String imagePath="";
     ImageButton plistBtnPicture;
@@ -63,16 +53,17 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
     Button btnDay[] = new Button[7];
     Integer btnDayIDs[] = {R.id.plistBtnMon, R.id.plistBtnTue, R.id.plistBtnWed,
             R.id.plistBtnThu, R.id.plistBtnFri, R.id.plistBtnSat, R.id.plistBtnSun};
-    Button plistBtnTime, plistBtnSave, plistBtnTimeOk;
+    Button plistBtnTime, plistBtnSave;
+    Button btnTime[] = new Button[6];
+    Integer btnTimeIds[] = {R.id.btnTime1, R.id.btnTime2, R.id.btnTime3, R.id.btnTime4,
+            R.id.btnTime5, R.id.btnTime6};
     // TimePickerDialog를 띄웠을 때 시간 설정
     int alarmHour = 0, alarmMinute = 0;
-    public static String[] plTime = {"", "", "", "", "", ""};
-    String[] time = {"", "", "", "", "", ""};
+    public static String[] time = new String[6];
     // 카메라
     final int CAMERA = 100; // 카메라 선택 시 인텐트로 보내는 값
     final int GALLERY = 101; // 갤러리 선택 시 인텐트로 보내는 값
-    Dialog dialogCamera;
-    Intent intentC;
+    Intent intentC, intentG;
     public static Bitmap bitmap = null;
 
 
@@ -135,49 +126,34 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
                     break;
             }
             plistBtnPicture.setImageBitmap(bitmap);
-            dialogCamera.dismiss();
         }
     }
-    // 카메라 갤러리 선택 dialog
-    public void showDialogCamera() {
-        dialogCamera.show();
-        ImageButton btnCamera = dialogCamera.findViewById(R.id.btnCamera);
-        ImageButton btnGallery = dialogCamera.findViewById(R.id.btnGallery);
-
-        // 카메라 버튼 이벤트
-        btnCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intentC = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (intentC.resolveActivity(getPackageManager()) != null) {
-                    File imageFile = null;
-                    try{
-                        imageFile = createImageFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    if(imageFile != null) {
-                        Uri imageUri = FileProvider.getUriForFile(getApplicationContext(),
-                                "com.cookandroid.swu.fileprovider", imageFile);
-                        intentC.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                        startActivityForResult(intentC, CAMERA);
-                    }
-                }
+    // 카메라 함수
+    public void doTakePhotoAction(){
+        intentC = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intentC.resolveActivity(getPackageManager()) != null) {
+            File imageFile = null;
+            try {
+                imageFile = createImageFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
-        // 갤러리 버튼 이벤트
-        btnGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intentC = new Intent(Intent.ACTION_PICK);
-                intentC.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                intentC.setType("image/*");
-                startActivityForResult(intentC, GALLERY);
+
+            if (imageFile != null) {
+                Uri imageUri = FileProvider.getUriForFile(getApplicationContext(),
+                        "com.cookandroid.swu.fileprovider", imageFile);
+                intentC.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intentC, CAMERA);
             }
-        });
+        }
     }
-
+    // 갤러리 함수
+    public void doTakeAlbumAction(){
+        intentG = new Intent(Intent.ACTION_PICK);
+        intentG.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        intentG.setType("image/*");
+        startActivityForResult(intentG, GALLERY);
+    }
 
 
     /* 컨텍스트 메뉴 */
@@ -192,105 +168,58 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
     }
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        // 선택되면 개수만큼 button을 보이게 함
         switch (item.getItemId()){
             case R.id.itemPlist1:
-                // 버튼 6개를 xml에 선언하고 setvisible 바꾸는 거
                 plistBtnTime.setText("1");
                 plListCount = 1;
+                for(int i=0;i<6;i++){
+                    if(i<plListCount)btnTime[i].setVisibility(View.VISIBLE);
+                    else btnTime[i].setVisibility(View.GONE);
+                }
                 return true;
             case R.id.itemPlist2:
                 plistBtnTime.setText("2");
                 plListCount = 2;
+                for(int i=0;i<6;i++){
+                    if(i<plListCount)btnTime[i].setVisibility(View.VISIBLE);
+                    else btnTime[i].setVisibility(View.GONE);
+                }
                 return true;
             case R.id.itemPlist3:
                 plistBtnTime.setText("3");
                 plListCount = 3;
+                for(int i=0;i<6;i++){
+                    if(i<plListCount)btnTime[i].setVisibility(View.VISIBLE);
+                    else btnTime[i].setVisibility(View.GONE);
+                }
                 return true;
             case R.id.itemPlist4:
                 plistBtnTime.setText("4");
                 plListCount = 4;
+                for(int i=0;i<6;i++){
+                    if(i<plListCount)btnTime[i].setVisibility(View.VISIBLE);
+                    else btnTime[i].setVisibility(View.GONE);
+                }
                 return true;
             case R.id.itemPlist5:
                 plistBtnTime.setText("5");
                 plListCount = 5;
+                for(int i=0;i<6;i++){
+                    if(i<plListCount)btnTime[i].setVisibility(View.VISIBLE);
+                    else btnTime[i].setVisibility(View.GONE);
+                }
                 return true;
             case R.id.itemPlist6:
                 plistBtnTime.setText("6");
                 plListCount = 6;
+                for(int i=0;i<6;i++){
+                    if(i<plListCount)btnTime[i].setVisibility(View.VISIBLE);
+                    else btnTime[i].setVisibility(View.GONE);
+                }
                 return true;
         }
         return false;
-    }
-
-
-
-    /* 리스트뷰 */
-    // 리스트뷰 아이템
-    public boolean loadItems(ArrayList<ListViewItemPlistAlertTime> list) {
-        ListViewItemPlistAlertTime item;
-        int j = 1;
-
-        if (list == null) {
-            list = new ArrayList<ListViewItemPlistAlertTime>();
-        }
-
-        // 아이템 생성 : listCount 개수만큼
-        for(j=1;j<=plListCount;j++){
-            final int k = j;
-            item = new ListViewItemPlistAlertTime();
-            item.setTitle("시간");
-            item.setTitleNum(Integer.toString(j));
-            item.setTime(time[k-1]);
-            list.add(item);
-        }
-
-        return true;
-    }
-    // 리스트뷰 버튼 클릭하면 시간 선택
-    @Override
-    public void onListBtnClick(int position) {
-        // timePickerdialog로 띄우기
-        // android.R.style.Theme_Holo_Light_Dialog : spinner 모드
-        TimePickerDialog timePickerDialog =
-                new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int hour, int min) {
-                        // time 배열의 첫 번째 값이 비어있지 않으면 모두 초기화
-                        String amPm = "";
-                        String minTen = "";
-
-                        Calendar dateTime = Calendar.getInstance();
-                        dateTime.set(Calendar.HOUR_OF_DAY, hour);
-                        dateTime.set(Calendar.MINUTE, min);
-
-                        if(dateTime.get(Calendar.AM_PM) == Calendar.AM) amPm = "AM";
-                        else if (dateTime.get(Calendar.AM_PM) == Calendar.PM) amPm = "PM";
-
-                        String strHrsToShow = (dateTime.get(Calendar.HOUR) == 0) ? "12" : dateTime.get(Calendar.HOUR)+"";
-
-                        // min이 10이하면 0을 붙여서 저장
-                        if (min < 10) minTen = "0" + Integer.toString(min);
-                        else minTen = Integer.toString(min);
-
-                        // listview 속 시간버튼 포지션마다 time 변수로 저장
-                        switch (position) {
-                            case 0:
-                                time[0] = strHrsToShow+" : "+minTen+" "+amPm; break;
-                            case 1:
-                                time[1] = strHrsToShow+" : "+minTen+" "+amPm; break;
-                            case 2:
-                                time[2] = strHrsToShow+" : "+minTen+" "+amPm; break;
-                            case 3:
-                                time[3] = strHrsToShow+" : "+minTen+" "+amPm; break;
-                            case 4:
-                                time[4] = strHrsToShow+" : "+minTen+" "+amPm; break;
-                            case 5:
-                                time[5] = strHrsToShow+" : "+minTen+" "+amPm; break;
-                        }
-                    }
-                }, alarmHour, alarmMinute, false);
-
-        timePickerDialog.show();
     }
 
 
@@ -318,18 +247,34 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
         plistBtnPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialogCamera = new Dialog(PlistActivity.this);
-                // 타이틀 제거
-                dialogCamera.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialogCamera.setContentView(R.layout.dialogcamera);
-                showDialogCamera();
+                DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        doTakePhotoAction();
+                    }
+                };
+                DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        doTakeAlbumAction();
+                    }
+                };
+                DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        dialogInterface.dismiss();
+                    }
+                };
+                new AlertDialog.Builder(PlistActivity.this)
+                        .setTitle("이미지를 선택하세요")
+                        .setPositiveButton("사진촬영", cameraListener)
+                        .setNeutralButton("앨범선택", albumListener)
+                        .setNegativeButton("취소", cancelListener)
+                        .show();
             }
         });
 
         // 요일 저장
-        for(int i=0;i<btnDay.length;i++){
-            btnDay[i] = findViewById(btnDayIDs[i]);
-        }
         for(int i=0;i<btnDay.length;i++){
             final int index = i;
             int[] count = new int[btnDay.length];
@@ -361,54 +306,143 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
                 openContextMenu(view);
             }
         });
-
-
-        // 시간 리스트뷰
-        ArrayList<ListViewItemPlistAlertTime> items = new ArrayList<ListViewItemPlistAlertTime>();
-        // items 로드
-        loadItems(items);
-        // adapter 생성
-        adapter = new AdapterPlistAlertTime(this, R.layout.listview_plistalerttime, items, this);
-        // adapter 달기
-        plistListTime.setAdapter(adapter);
-        // listView 버튼 클릭 이벤트 핸들러 지정
-        plistListTime.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(PlistActivity.this);
-                dialog.setTitle("삭제");
-                dialog.setMessage("삭제하시겠습니까?");
-                dialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        int count, checked;
-                        count = adapter.getCount();
-
-                        if(count > 0) {
-                            // 현재 선택된 아이템 position 획득
-                            checked = plistListTime.getCheckedItemPosition();
-                            if(checked > -1 && checked < count) {
-                                // 아이템 삭제
-                                items.remove(checked);
-                                plistListTime.clearChoices();
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
-                    }
-                });
-                dialog.setNegativeButton("취소", null);
-                dialog.show();
-                // click Listener도 달려면 return false
-                return true;
-            }
-        });
-        // 확인 버튼 누르면 리스트뷰에 수 변경 반영
-        plistBtnTimeOk.setOnClickListener(new View.OnClickListener() {
+        // 시간 저장
+        btnTime[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                items.clear();
-                loadItems(items);
-                adapter.notifyDataSetChanged();
+                TimePickerDialog timePickerDialog =
+                    new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                        public void onTimeSet(TimePicker timePicker, int hour, int min) {
+                            time[0] = "";
+                            String minTen = "", hourTen = "";
+
+                            // min이 10이하면 0을 붙여서 저장
+                            if (min < 10) minTen = "0" + Integer.toString(min);
+                            else minTen = Integer.toString(min);
+                            if (hour < 10) hourTen = "0" + Integer.toString(hour);
+                            else hourTen = Integer.toString(hour);
+
+                            time[0] = hourTen+" : "+minTen+" ";
+                            btnTime[0].setText("복용 시간 1: "+time[0]);
+                        }
+                    }, alarmHour, alarmMinute, true);
+                timePickerDialog.show();
+            }
+        });
+        btnTime[1].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog =
+                        new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int hour, int min) {
+                                time[1] = "";
+                                String minTen = "", hourTen = "";
+
+                                // min이 10이하면 0을 붙여서 저장
+                                if (min < 10) minTen = "0" + Integer.toString(min);
+                                else minTen = Integer.toString(min);
+                                if (hour < 10) hourTen = "0" + Integer.toString(hour);
+                                else hourTen = Integer.toString(hour);
+
+                                time[1] = hourTen+" : "+minTen+" ";
+                                btnTime[1].setText("복용 시간 2: "+time[1]);
+                            }
+                        }, alarmHour, alarmMinute, true);
+                timePickerDialog.show();
+            }
+        });
+        btnTime[2].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog =
+                        new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int hour, int min) {
+                                time[2] = "";
+                                String minTen = "", hourTen = "";
+
+                                // min이 10이하면 0을 붙여서 저장
+                                if (min < 10) minTen = "0" + Integer.toString(min);
+                                else minTen = Integer.toString(min);
+                                if (hour < 10) hourTen = "0" + Integer.toString(hour);
+                                else hourTen = Integer.toString(hour);
+
+                                time[2] = hourTen+" : "+minTen+" ";
+                                btnTime[2].setText("복용 시간 3: "+time[2]);
+                            }
+                        }, alarmHour, alarmMinute, true);
+                timePickerDialog.show();
+            }
+        });
+        btnTime[3].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog =
+                        new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int hour, int min) {
+                                time[3] = "";
+                                String minTen = "", hourTen = "";
+
+                                // min이 10이하면 0을 붙여서 저장
+                                if (min < 10) minTen = "0" + Integer.toString(min);
+                                else minTen = Integer.toString(min);
+                                if (hour < 10) hourTen = "0" + Integer.toString(hour);
+                                else hourTen = Integer.toString(hour);
+
+                                time[3] = hourTen+" : "+minTen+" ";
+                                btnTime[3].setText("복용 시간 4: "+time[3]);
+                            }
+                        }, alarmHour, alarmMinute, true);
+                timePickerDialog.show();
+            }
+        });
+        btnTime[4].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog =
+                        new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int hour, int min) {
+                                time[4] = "";
+                                String minTen = "", hourTen = "";
+
+                                // min이 10이하면 0을 붙여서 저장
+                                if (min < 10) minTen = "0" + Integer.toString(min);
+                                else minTen = Integer.toString(min);
+                                if (hour < 10) hourTen = "0" + Integer.toString(hour);
+                                else hourTen = Integer.toString(hour);
+
+                                time[4] = hourTen+" : "+minTen+" ";
+                                btnTime[4].setText("복용 시간 5: "+time[4]);
+                            }
+                        }, alarmHour, alarmMinute, true);
+                timePickerDialog.show();
+            }
+        });
+        btnTime[5].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog =
+                        new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int hour, int min) {
+                                time[5] = "";
+                                String minTen = "", hourTen = "";
+
+                                // min이 10이하면 0을 붙여서 저장
+                                if (min < 10) minTen = "0" + Integer.toString(min);
+                                else minTen = Integer.toString(min);
+                                if (hour < 10) hourTen = "0" + Integer.toString(hour);
+                                else hourTen = Integer.toString(hour);
+
+                                time[5] = hourTen+" : "+minTen+" ";
+                                btnTime[5].setText("복용 시간 6: "+time[5]);
+                            }
+                        }, alarmHour, alarmMinute, true);
+                timePickerDialog.show();
             }
         });
 
@@ -423,19 +457,11 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
                 Bitmap plBitmap = null;
                 if(bitmap == null) plBitmap = bitmap;
                 else plBitmap = bitmap;
-                for(int i = 0;i < 6; i++){
-                    plTime[i] = time[i];
-                }
+
 
                 PlistFragment plistFragment = (PlistFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                plistFragment.addItem(plBitmap, plName, plTime[0], plTime[1], plTime[2], plTime[3], plTime[4], plTime[5]);
+                plistFragment.addItem(plBitmap, plName, plMemo, plDay);
 
-                // 11/09
-                // fragment에 listview 추가 부분은 대충 기술구현을 했지만
-                // bitmap, timebutton 등이 초기화가 되지 않고
-                // 이전에 쓰인 값이 그대로 쓰여지는 문제가 발생
-                // staic으로 구현한 것이 문제가 되는 것이라 예상
-                // add item을 할 때마다 초기화를 해주거나 다른 변수를 선언해야 할 듯
 
                 finish();
             }
@@ -448,10 +474,12 @@ public class PlistActivity extends AppCompatActivity implements AdapterPlistAler
         plistEdtName = findViewById(R.id.plistEdtName);
         plistEdtRealMemo = findViewById(R.id.plistEdtRealMemo);
         plistBtnTime = findViewById(R.id.plistBtnTime);
+        for (int i = 0; i < btnDay.length; i++) {
+            btnDay[i] = findViewById(btnDayIDs[i]);
+        }
+        for (int i = 0; i < btnTime.length; i++) {
+            btnTime[i] = findViewById(btnTimeIds[i]);
+        }
         plistBtnSave = findViewById(R.id.plistBtnSave);
-        plistListTime = findViewById(R.id.plistListTime);
-        plistBtnTimeOk = findViewById(R.id.plistBtnTimeOk);
     }
-
-
 }

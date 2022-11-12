@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,12 +26,15 @@ import com.cookandroid.swu.PlistActivity;
 import com.cookandroid.swu.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlistFragment extends Fragment{
     ListView lvPlist;
     FloatingActionButton fabAdd;
 //    final int REQUESTCODE_REVIEW_WRITE = 3;
-    public static AdapterPlistTime plAdapter;
-
+    public static AdapterPlistTime plAdapter = new AdapterPlistTime();
 
 
     @Nullable
@@ -40,8 +45,8 @@ public class PlistFragment extends Fragment{
         fabAdd = view.findViewById(R.id.fabAdd);
         lvPlist = view.findViewById(R.id.lvPlist);
 
-        plAdapter = new AdapterPlistTime();
         lvPlist.setAdapter(plAdapter);
+
 
         // 복용약 리스트 추가하기
         fabAdd.setOnClickListener(new View.OnClickListener() {
@@ -53,12 +58,14 @@ public class PlistFragment extends Fragment{
             }
         });
 
+
         return view;
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public static void addItem(Bitmap icon, String name, String t1, String t2, String t3, String t4, String t5, String t6) {
-        plAdapter.addItem(icon, name, t1, t2, t3, t4, t5, t6);
+    public static void addItem(Bitmap icon, String name, String memo, String day) {
+        plAdapter.addItem(icon, name, memo, day);
         plAdapter.notifyDataSetChanged();
     }
+
 }
