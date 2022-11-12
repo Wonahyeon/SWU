@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -20,9 +21,16 @@ import java.util.List;
 
 
 public class EboxFragment extends Fragment {
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("우리집 구급함");
+    }
+
 Button addbutton;
 ListView customListView;
-private static ListViewAdapter listViewAdapter;
+private static ListViewAdapter listViewAdapter= new ListViewAdapter();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,10 +39,11 @@ private static ListViewAdapter listViewAdapter;
         View v = inflater.inflate(R.layout.fragment_ebox, container, false);
 
         customListView = (ListView) v.findViewById(R.id.listView_custom);
-        listViewAdapter = new ListViewAdapter();
         customListView.setAdapter(listViewAdapter);
 
         addbutton =(Button) v.findViewById(R.id.addbtn);
+
+
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,8 +54,8 @@ private static ListViewAdapter listViewAdapter;
         });
         return v;
     }
-    public static void addItem(Bitmap icon, String title, String desc) {
-        listViewAdapter.addItem(icon, title, desc) ;
+    public static void addItem(Bitmap icon, String title, String desc, String date, String memo) {
+        listViewAdapter.addItem(icon, title, desc, date, memo) ;
         listViewAdapter.notifyDataSetChanged();
     }
 }

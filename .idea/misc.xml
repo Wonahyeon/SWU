@@ -3,13 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/layout/activity_ebox_add.xml" value="0.2453125" />
+        <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/drawable-v24/circle.xml" value="0.103" />
+        <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/drawable/roundsquare.xml" value="0.1" />
+        <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/drawable/s_custom_button.xml" value="0.138" />
+        <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/font/gowundodum.xml" value="0.2657407407407407" />
+        <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/layout/activity_ebox_add.xml" value="0.264" />
         <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/layout/activity_main.xml" value="0.2484375" />
         <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/layout/activity_search_pill.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/layout/circle.xml" value="0.23489583333333333" />
+        <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/layout/dialogdel.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/layout/ebox_dia.xml" value="0.1" />
         <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/layout/eboxlistview_item.xml" value="0.15760869565217392" />
-        <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/layout/fragment_ebox.xml" value="0.2484375" />
+        <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/layout/fragment_ebox.xml" value="0.2" />
         <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/layout/row_item.xml" value="0.1526268115942029" />
+        <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/layout/savebtn.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/menu/bottom_navigation.xml" value="0.24461538461538462" />
         <entry key="..\:/Users/LGPC/AndroidStudioProjects/SWU/app/src/main/res/xml/fileprovider.xml" value="0.1490036231884058" />
       </map>
