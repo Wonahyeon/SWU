@@ -1,13 +1,13 @@
 package com.cookandroid.swu;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 public class ListViewItemPlistTime {
     Bitmap plItembitmap;
     String plItemname;
     String plItemDay;
     String plMemo;
+    String plTime1, plTime2, plTime3, plTime4, plTime5, plTime6;
 
     public void setBitmap(Bitmap bitmap) {
         this.plItembitmap = bitmap;
@@ -17,6 +17,12 @@ public class ListViewItemPlistTime {
     }
     public void setDay(String day) { this.plItemDay = day; }
     public void setMemo(String memo) {this.plMemo = memo;}
+    public void setTime1(String time) { this.plTime1 = time; }
+    public void setTime2(String time) { this.plTime2 = time; }
+    public void setTime3(String time) { this.plTime3 = time; }
+    public void setTime4(String time) { this.plTime4 = time; }
+    public void setTime5(String time) { this.plTime5 = time; }
+    public void setTime6(String time) { this.plTime6 = time; }
 
 
     public Bitmap getBitmap(){
@@ -29,4 +35,11 @@ public class ListViewItemPlistTime {
         return this.plItemDay;
     }
     public String getMemo() {return this.plMemo;}
+    public String getTime1() { return this.plTime1; }
+    public String getTime2() { return this.plTime2; }
+    public String getTime3() { return this.plTime3; }
+    public String getTime4() { return this.plTime4; }
+    public String getTime5() { return this.plTime5; }
+    public String getTime6() { return this.plTime6; }
+
 }

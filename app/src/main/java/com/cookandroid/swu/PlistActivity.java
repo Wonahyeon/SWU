@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.cookandroid.swu.Fragment.PlistFragment;
 
@@ -42,7 +44,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlistActivity extends AppCompatActivity {
     public static Integer plListCount = 1;
@@ -59,7 +64,7 @@ public class PlistActivity extends AppCompatActivity {
             R.id.btnTime5, R.id.btnTime6};
     // TimePickerDialog를 띄웠을 때 시간 설정
     int alarmHour = 0, alarmMinute = 0;
-    public static String[] time = new String[6];
+    String plTime1, plTime2, plTime3, plTime4, plTime5, plTime6;
     // 카메라
     final int CAMERA = 100; // 카메라 선택 시 인텐트로 보내는 값
     final int GALLERY = 101; // 갤러리 선택 시 인텐트로 보내는 값
@@ -85,6 +90,7 @@ public class PlistActivity extends AppCompatActivity {
         return file;
     }
     // 카메라 이미지 세팅
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -105,8 +111,19 @@ public class PlistActivity extends AppCompatActivity {
                     // InputStream으로 이미지 세팅하기
                     try {
                         InputStream inputStream = getContentResolver().openInputStream(data.getData());
-                        bitmap = BitmapFactory.decodeStream(inputStream);
+                        ExifInterface exif = new ExifInterface(inputStream);
                         inputStream.close();
+
+                        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                        Matrix matrix = new Matrix();
+                        if (orientation == ExifInterface.ORIENTATION_ROTATE_90)
+                            matrix.postRotate(90);
+                        else if (orientation == ExifInterface.ORIENTATION_ROTATE_180)
+                            matrix.postRotate(180);
+                        else if (orientation == ExifInterface.ORIENTATION_ROTATE_270)
+                            matrix.postRotate(270);
+
+                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -117,12 +134,12 @@ public class PlistActivity extends AppCompatActivity {
                     // 이미지 축소 정도. 원 크기에서 1/inSampleSize로 축소
                     options.inSampleSize = 5;
                     bitmap = BitmapFactory.decodeFile(imagePath, options);
-
                     // 사진이 왼쪽으로 90도 회전되어 나와서 오른쪽으로 90도 회전
                     Matrix rotateMatrix = new Matrix();
                     rotateMatrix.postRotate(90);
                     bitmap = Bitmap.createBitmap(bitmap, 0, 0,
                             bitmap.getWidth(), bitmap.getHeight(), rotateMatrix, false);
+
                     break;
             }
             plistBtnPicture.setImageBitmap(bitmap);
@@ -242,7 +259,6 @@ public class PlistActivity extends AppCompatActivity {
         if(!hasCamPerm || !hasWritePerm)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
-
         // 카메라
         plistBtnPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -314,7 +330,6 @@ public class PlistActivity extends AppCompatActivity {
                     new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                         public void onTimeSet(TimePicker timePicker, int hour, int min) {
-                            time[0] = "";
                             String minTen = "", hourTen = "";
 
                             // min이 10이하면 0을 붙여서 저장
@@ -323,8 +338,9 @@ public class PlistActivity extends AppCompatActivity {
                             if (hour < 10) hourTen = "0" + Integer.toString(hour);
                             else hourTen = Integer.toString(hour);
 
-                            time[0] = hourTen+" : "+minTen+" ";
-                            btnTime[0].setText("복용 시간 1         "+time[0]);
+
+                            plTime1 = hourTen+" : "+minTen+" ";
+                            btnTime[0].setText("복용 시간 1         "+plTime1);
                         }
                     }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
@@ -337,7 +353,6 @@ public class PlistActivity extends AppCompatActivity {
                         new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int hour, int min) {
-                                time[1] = "";
                                 String minTen = "", hourTen = "";
 
                                 // min이 10이하면 0을 붙여서 저장
@@ -346,8 +361,8 @@ public class PlistActivity extends AppCompatActivity {
                                 if (hour < 10) hourTen = "0" + Integer.toString(hour);
                                 else hourTen = Integer.toString(hour);
 
-                                time[1] = hourTen+" : "+minTen+" ";
-                                btnTime[1].setText("복용 시간 2         "+time[1]);
+                                plTime2 = hourTen+" : "+minTen+" ";
+                                btnTime[1].setText("복용 시간 2         "+plTime2);
                             }
                         }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
@@ -360,7 +375,6 @@ public class PlistActivity extends AppCompatActivity {
                         new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int hour, int min) {
-                                time[2] = "";
                                 String minTen = "", hourTen = "";
 
                                 // min이 10이하면 0을 붙여서 저장
@@ -369,8 +383,8 @@ public class PlistActivity extends AppCompatActivity {
                                 if (hour < 10) hourTen = "0" + Integer.toString(hour);
                                 else hourTen = Integer.toString(hour);
 
-                                time[2] = hourTen+" : "+minTen+" ";
-                                btnTime[2].setText("복용 시간 3         "+time[2]);
+                                plTime3 = hourTen+" : "+minTen+" ";
+                                btnTime[2].setText("복용 시간 3         "+plTime3);
                             }
                         }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
@@ -383,7 +397,6 @@ public class PlistActivity extends AppCompatActivity {
                         new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int hour, int min) {
-                                time[3] = "";
                                 String minTen = "", hourTen = "";
 
                                 // min이 10이하면 0을 붙여서 저장
@@ -392,8 +405,8 @@ public class PlistActivity extends AppCompatActivity {
                                 if (hour < 10) hourTen = "0" + Integer.toString(hour);
                                 else hourTen = Integer.toString(hour);
 
-                                time[3] = hourTen+" : "+minTen+" ";
-                                btnTime[3].setText("복용 시간 4         "+time[3]);
+                                plTime4 = hourTen+" : "+minTen+" ";
+                                btnTime[3].setText("복용 시간 4         "+plTime4);
                             }
                         }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
@@ -406,7 +419,6 @@ public class PlistActivity extends AppCompatActivity {
                         new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int hour, int min) {
-                                time[4] = "";
                                 String minTen = "", hourTen = "";
 
                                 // min이 10이하면 0을 붙여서 저장
@@ -415,8 +427,8 @@ public class PlistActivity extends AppCompatActivity {
                                 if (hour < 10) hourTen = "0" + Integer.toString(hour);
                                 else hourTen = Integer.toString(hour);
 
-                                time[4] = hourTen+" : "+minTen+" ";
-                                btnTime[4].setText("복용 시간 5         "+time[4]);
+                                plTime5 = hourTen+" : "+minTen+" ";
+                                btnTime[4].setText("복용 시간 5         "+plTime5);
                             }
                         }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
@@ -429,7 +441,6 @@ public class PlistActivity extends AppCompatActivity {
                         new TimePickerDialog(PlistActivity.this, android.R.style.Theme_Holo_Light_Dialog, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int hour, int min) {
-                                time[5] = "";
                                 String minTen = "", hourTen = "";
 
                                 // min이 10이하면 0을 붙여서 저장
@@ -438,8 +449,8 @@ public class PlistActivity extends AppCompatActivity {
                                 if (hour < 10) hourTen = "0" + Integer.toString(hour);
                                 else hourTen = Integer.toString(hour);
 
-                                time[5] = hourTen+" : "+minTen+" ";
-                                btnTime[5].setText("복용 시간 6         "+time[5]);
+                                plTime6 = hourTen+" : "+minTen+" ";
+                                btnTime[5].setText("복용 시간 6         "+plTime6);
                             }
                         }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
@@ -459,14 +470,20 @@ public class PlistActivity extends AppCompatActivity {
                 else plBitmap = bitmap;
 
 
-                PlistFragment plistFragment = (PlistFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                plistFragment.addItem(plBitmap, plName, plMemo, plDay);
+                if(!plName.equals("")){
+                    PlistFragment plistFragment = (PlistFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                    plistFragment.addItem(plBitmap, plName, plMemo, plDay, plTime1, plTime2, plTime3, plTime4, plTime5, plTime6);
+                    plDay = "";
+                    finish();
+                }
+                else if(plName.equals("")) {
+                    Toast.makeText(PlistActivity.this, "이름을 입력해주세요", Toast.LENGTH_SHORT).show();
+                }
 
-                plDay = "";
-                finish();
             }
         });
     }
+
 
     // findViewById
     void fvbi() {

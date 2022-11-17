@@ -3,7 +3,6 @@ package com.cookandroid.swu;
 
 import static com.cookandroid.swu.PlistActivity.plDay;
 import static com.cookandroid.swu.PlistActivity.plListCount;
-import static com.cookandroid.swu.PlistActivity.time;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -30,7 +29,6 @@ public class AdapterPlistTime extends BaseAdapter{
     ArrayList<Integer> btnListCount = new ArrayList<Integer>();
     String memo, day;
 
-
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<ListViewItemPlistTime> listViewItemList = new ArrayList<ListViewItemPlistTime>();
 
@@ -55,8 +53,6 @@ public class AdapterPlistTime extends BaseAdapter{
         String getTime = dateFormat.format(date);
         SimpleDateFormat dayFormat = new SimpleDateFormat("EE");
         String getDay = dayFormat.format(date);
-
-
 
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
@@ -87,6 +83,7 @@ public class AdapterPlistTime extends BaseAdapter{
         plistLvtName.setText(listViewItem.getName());
         memo = listViewItem.getMemo();
         day = listViewItem.getDay();
+
         // 해당 요일이면 시간 버튼을 보여줌
         if (day.contains(getDay)) {
             plistLvtDay.setVisibility(View.GONE);
@@ -97,7 +94,7 @@ public class AdapterPlistTime extends BaseAdapter{
                         final int index = i;
                         if (index == 0) {
                             btnTime[index].setVisibility(View.VISIBLE);
-                            btnTime[index].setText(time[index]);
+                            btnTime[index].setText(listViewItem.getTime1());
                         }
                         else btnTime[index].setVisibility(View.GONE);
                     } break;
@@ -106,7 +103,10 @@ public class AdapterPlistTime extends BaseAdapter{
                         final int index = i;
                         if (index >= 0 && index <= 1) {
                             btnTime[index].setVisibility(View.VISIBLE);
-                            btnTime[index].setText(time[index]);
+                            if(index == 0)
+                                btnTime[index].setText(listViewItem.getTime1());
+                            else
+                                btnTime[index].setText(listViewItem.getTime2());
                         }
                         else btnTime[index].setVisibility(View.GONE);
                     } break;
@@ -115,7 +115,12 @@ public class AdapterPlistTime extends BaseAdapter{
                         final int index = i;
                         if (index >= 0 && index <= 2) {
                             btnTime[index].setVisibility(View.VISIBLE);
-                            btnTime[index].setText(time[index]);
+                            if(index == 0)
+                                btnTime[index].setText(listViewItem.getTime1());
+                            else if(index == 1)
+                                btnTime[index].setText(listViewItem.getTime2());
+                            else
+                                btnTime[index].setText(listViewItem.getTime3());
                         }
                         else btnTime[index].setVisibility(View.GONE);
                     } break;
@@ -124,7 +129,14 @@ public class AdapterPlistTime extends BaseAdapter{
                         final int index = i;
                         if (index >= 0 && index <= 3) {
                             btnTime[index].setVisibility(View.VISIBLE);
-                            btnTime[index].setText(time[index]);
+                            if(index == 0)
+                                btnTime[index].setText(listViewItem.getTime1());
+                            else if(index == 1)
+                                btnTime[index].setText(listViewItem.getTime2());
+                            else if(index == 2)
+                                btnTime[index].setText(listViewItem.getTime3());
+                            else
+                                btnTime[index].setText(listViewItem.getTime4());
                         }
                         else btnTime[index].setVisibility(View.GONE);
                     } break;
@@ -133,7 +145,16 @@ public class AdapterPlistTime extends BaseAdapter{
                         final int index = i;
                         if (index >= 0 && index <= 4) {
                             btnTime[index].setVisibility(View.VISIBLE);
-                            btnTime[index].setText(time[index]);
+                            if(index == 0)
+                                btnTime[index].setText(listViewItem.getTime1());
+                            else if(index == 1)
+                                btnTime[index].setText(listViewItem.getTime2());
+                            else if(index == 2)
+                                btnTime[index].setText(listViewItem.getTime3());
+                            else if(index == 3)
+                                btnTime[index].setText(listViewItem.getTime4());
+                            else
+                                btnTime[index].setText(listViewItem.getTime5());
                         }
                         else btnTime[index].setVisibility(View.GONE);
                     } break;
@@ -141,7 +162,18 @@ public class AdapterPlistTime extends BaseAdapter{
                     for(int i=0;i < 6;i++){
                         final int index = i;
                         btnTime[index].setVisibility(View.VISIBLE);
-                        btnTime[index].setText(time[index]);
+                        if(index == 0)
+                            btnTime[index].setText(listViewItem.getTime1());
+                        else if(index == 1)
+                            btnTime[index].setText(listViewItem.getTime2());
+                        else if(index == 2)
+                            btnTime[index].setText(listViewItem.getTime3());
+                        else if(index == 3)
+                            btnTime[index].setText(listViewItem.getTime4());
+                        else if(index == 4)
+                            btnTime[index].setText(listViewItem.getTime5());
+                        else
+                            btnTime[index].setText(listViewItem.getTime6());
                     } break;
             }
         }
@@ -151,9 +183,7 @@ public class AdapterPlistTime extends BaseAdapter{
                 final int index = i;
                 btnTime[index].setVisibility(View.GONE);
             }
-
         }
-
 
         // 약을 먹었냐는 dialog가 뜨고 dialog로 알약 이미지 색칠 및 현재/맞춤 시간으로 변경
         for(int i=0;i<6;i++) {
@@ -176,12 +206,24 @@ public class AdapterPlistTime extends BaseAdapter{
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             btnTime[index].setBackgroundResource(R.drawable.pill);
-                            btnTime[index].setText(time[index]);
+                            switch (index){
+                                case 0:
+                                    btnTime[index].setText(listViewItem.getTime1()); break;
+                                case 1:
+                                    btnTime[index].setText(listViewItem.getTime2()); break;
+                                case 2:
+                                    btnTime[index].setText(listViewItem.getTime3()); break;
+                                case 3:
+                                    btnTime[index].setText(listViewItem.getTime4()); break;
+                                case 4:
+                                    btnTime[index].setText(listViewItem.getTime5()); break;
+                                case 5:
+                                    btnTime[index].setText(listViewItem.getTime6()); break;
+                            }
+
                         }
                     });
-
                     dialog.show();
-
                 }
             });
         }
@@ -246,7 +288,6 @@ public class AdapterPlistTime extends BaseAdapter{
                 return false;
             }
         });
-
         return convertView;
     }
 
@@ -263,7 +304,8 @@ public class AdapterPlistTime extends BaseAdapter{
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Bitmap icon, String name, String memo, String day) {
+    public void addItem(Bitmap icon, String name, String memo, String day,
+                        String time1, String time2, String time3, String time4, String time5, String time6) {
         btnListCount.add(plListCount);
         ListViewItemPlistTime item = new ListViewItemPlistTime();
 
@@ -271,8 +313,13 @@ public class AdapterPlistTime extends BaseAdapter{
         item.setName(name);
         item.setMemo(memo);
         item.setDay(day);
+        item.setTime1(time1);
+        item.setTime2(time2);
+        item.setTime3(time3);
+        item.setTime4(time4);
+        item.setTime5(time5);
+        item.setTime6(time6);
 
         listViewItemList.add(item);
     }
-
 }

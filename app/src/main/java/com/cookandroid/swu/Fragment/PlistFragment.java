@@ -47,7 +47,6 @@ public class PlistFragment extends Fragment{
 
         lvPlist.setAdapter(plAdapter);
 
-
         // 복용약 리스트 추가하기
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,9 +68,15 @@ public class PlistFragment extends Fragment{
         getActivity().setTitle("복용약 리스트");
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public static void addItem(Bitmap icon, String name, String memo, String day) {
-        plAdapter.addItem(icon, name, memo, day);
+    public static void addItem(Bitmap icon, String name, String memo, String day,
+                               String time1, String time2, String time3, String time4, String time5, String time6) {
+        plAdapter.addItem(icon, name, memo, day, time1, time2, time3, time4, time5, time6);
         plAdapter.notifyDataSetChanged();
     }
 

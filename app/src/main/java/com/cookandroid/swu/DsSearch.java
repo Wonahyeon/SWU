@@ -62,8 +62,8 @@ public class DsSearch extends AppCompatActivity
 
     static final String TAG = "DsSearch";
     static final int GPS_ENABLE_REQUEST_CODE = 2001;
-    static final int UPDATE_INTERVAL_MS = 2000;  // 2초
-    static final int FASTEST_UPDATE_INTERVAL_MS = 1000; // 1초
+    static final int UPDATE_INTERVAL_MS = 1000;  // 1초
+    static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
 
     // onRequestPermissionsResult에서 수신된 결과에서
     // ActivityCompat.requestPermissions를 사용한 퍼미션 요청을 구별하기 위해 사용됩니다.
@@ -73,8 +73,9 @@ public class DsSearch extends AppCompatActivity
     // 앱을 실행하기 위해 필요한 퍼미션을 정의
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};  // 외부 저장소
 
-    Location mCurrentLocatiion;
+    Location mCurrentLocation;
     LatLng currentPosition;
+
 
     FusedLocationProviderClient mFusedLocationClient;
     LocationRequest locationRequest;
@@ -86,9 +87,14 @@ public class DsSearch extends AppCompatActivity
     List<Marker> previous_marker = null;
     Button mBtnSearch;
 
+    // 내 위치로
+    Button mBtnMyLocation;
+    int count;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ds_search);
+        setTitle("내 주변 약국 검색");
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -122,6 +128,9 @@ public class DsSearch extends AppCompatActivity
                 showPlaceInformation(currentPosition);
             }
         });
+
+        mBtnMyLocation = findViewById(R.id.mBtnMyLocation);
+        count = 0; // 맨 처음 한 번만 자동으로 내 위치로 이동
     }
 
     @Override
@@ -204,21 +213,30 @@ public class DsSearch extends AppCompatActivity
 
                 Log.d(TAG, "onLocationResult : " + markerSnippet);
 
-                //현재 위치에 마커 생성하고 이동
-                setCurrentLocation(location, markerTitle, markerSnippet);
+                mark();
 
-                mCurrentLocatiion = location;
+                while(count<=2){
+                    setCurrentLocation(location, markerTitle, markerSnippet);
+                    mCurrentLocation = location;
+
+                    count ++;
+                }
+                mBtnMyLocation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //현재 위치에 마커 생성하고 이동
+                        setCurrentLocation(location, markerTitle, markerSnippet);
+                        mCurrentLocation = location;
+                    }
+                });
+
             }
-
-
         }
-
     };
 
 
 
     private void startLocationUpdates() {
-
         if (!checkLocationServicesStatus()) {
 
             Log.d(TAG, "startLocationUpdates : call showDialogForLocationServiceSetting");
@@ -230,8 +248,6 @@ public class DsSearch extends AppCompatActivity
             int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_COARSE_LOCATION);
 
-
-
             if (hasFineLocationPermission != PackageManager.PERMISSION_GRANTED ||
                     hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED   ) {
 
@@ -239,16 +255,13 @@ public class DsSearch extends AppCompatActivity
                 return;
             }
 
-
             Log.d(TAG, "startLocationUpdates : call mFusedLocationClient.requestLocationUpdates");
 
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
 
             if (checkPermission())
                 mMap.setMyLocationEnabled(true);
-
         }
-
     }
 
 
@@ -259,26 +272,20 @@ public class DsSearch extends AppCompatActivity
         Log.d(TAG, "onStart");
 
         if (checkPermission()) {
-
             Log.d(TAG, "onStart : call mFusedLocationClient.requestLocationUpdates");
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
 
-            if (mMap!=null)
+            if (mMap != null)
                 mMap.setMyLocationEnabled(true);
-
         }
-
-
     }
 
 
     @Override
     protected void onStop() {
-
         super.onStop();
 
         if (mFusedLocationClient != null) {
-
             Log.d(TAG, "onStop : call stopLocationUpdates");
             mFusedLocationClient.removeLocationUpdates(locationCallback);
         }
@@ -288,14 +295,12 @@ public class DsSearch extends AppCompatActivity
 
 
     public String getCurrentAddress(LatLng latlng) {
-
         //지오코더... GPS를 주소로 변환
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         List<Address> addresses;
 
         try {
-
             addresses = geocoder.getFromLocation(
                     latlng.latitude,
                     latlng.longitude,
@@ -307,19 +312,15 @@ public class DsSearch extends AppCompatActivity
         } catch (IllegalArgumentException illegalArgumentException) {
             Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
             return "잘못된 GPS 좌표";
-
         }
 
-
         if (addresses == null || addresses.size() == 0) {
-            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
             return "주소 미발견";
-
         } else {
             Address address = addresses.get(0);
             return address.getAddressLine(0).toString();
         }
-
     }
 
 
@@ -333,7 +334,6 @@ public class DsSearch extends AppCompatActivity
 
     public void setCurrentLocation(Location location, String markerTitle, String markerSnippet) {
         if (currentMarker != null) currentMarker.remove();
-
 
         LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -349,7 +349,7 @@ public class DsSearch extends AppCompatActivity
         mMap.moveCamera(cameraUpdate);
     }
 
-
+    // 디폴트 위치 설정
     public void setDefaultLocation() {
         //디폴트 위치, Seoul
         LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
@@ -533,19 +533,38 @@ public class DsSearch extends AppCompatActivity
 
     public void showPlaceInformation(LatLng location) {
         Log.d("place", "showPlaceInformation");
-        mMap.clear();//지도 클리어
 
         if (previous_marker != null)
             previous_marker.clear();//지역정보 마커 클리어
 
         new NRPlaces.Builder()
                 .listener(DsSearch.this)
-                .key("AIzaSyB0boXtjfnzp4E4Rp95G2t-Deatz-4XxHA")
-                .latlng(location.latitude, location.longitude)//현재 위치
+                .key("AIzaSyBtmz_f0Xep_Y897O5TxEwu9J_wO1IouLs")
+                .latlng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude())//현재 위치
                 .radius(500) //500 미터 내에서 검색
                 .type(PlaceType.PHARMACY) //음식점
                 .language("ko", "KR")
                 .build()
                 .execute();
+
+        mMap.clear(); //지도 클리어
+    }
+
+    // 마커 위치 찍고 그 위치 기준
+    private void mark() {
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(@NonNull LatLng latLng) {
+                mMap.clear();
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                markerOptions.position(latLng);
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.addMarker(markerOptions);
+                mCurrentLocation.setLatitude(latLng.latitude);
+                mCurrentLocation.setLongitude(latLng.longitude);
+            }
+        });
     }
 }
