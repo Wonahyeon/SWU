@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.EboxFragment">
+    tools:context=".Fragment.EboxFragment"
+    android:padding="10dp">
 
     <ListView
         android:id="@+id/listView_custom"

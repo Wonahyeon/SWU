@@ -6,7 +6,6 @@
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
-
     </queries>
 
     <uses-feature
@@ -15,17 +14,18 @@
 
     <permission
         android:name="com.cookandroid.swu.permission.MAPS_RECEIVE"
-        android:label="signature" />
-
+        android:label="signature" /> <!-- 카메라/갤러리 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
-    <uses-feature android:name="android.hardware.camera"
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET " />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 맵 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.goolge.android.providers.gsf.permission.READ_GSERVICES" />
@@ -35,19 +35,22 @@
         android:value="@integer/google_play_services_version" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SWU">
+        <activity android:name=".PlistActivity"></activity>
+        <activity android:name=".HomeDel" />
         <activity
             android:name=".EboxAdd"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".DsSearch" />
         <activity android:name=".PillSearch" />
-        <activity android:name=".PlusPill"/>
+        <activity android:name=".PlusPill" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,28 +58,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service
-            android:name=".MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
-
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBxXl-NSo-cqq-VpZGb2WhSAfCRx4Kj5H0" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.cookandroid.swu.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
+
+            <!-- 파일경로 xml생성 -->
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/external" />
-        </provider>
-
+        </provider> <!-- map API키 -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB8EppTWA_tqiA4TVfX74jJNCDy2ARyzzs" />
     </application>
 
 </manifest>

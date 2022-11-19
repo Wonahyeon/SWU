@@ -3,6 +3,7 @@ package com.cookandroid.swu;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -77,7 +78,8 @@ public class EboxAdd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ebox_add);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼
-
+        ActionBar ac=getSupportActionBar();
+        ac.setTitle("우리집 구급함 약 추가하기"); //actionbar추가
         EboxFragment tf = (EboxFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
 
@@ -154,9 +156,8 @@ public class EboxAdd extends AppCompatActivity {
             public void onClick(View view) {
                 ebox_name = eboxname.getText().toString();
                 ebox_memo = eboxmemo.getText().toString();
-                ebox_sympton = eboxsympton.getText().toString();
-
-                tf.addItem(photo,ebox_name,ebox_sympton);
+                ebox_sympton = "증상 : " + eboxsympton.getText().toString();
+                tf.addItem(photo,ebox_name,ebox_sympton,ebox_date,ebox_memo);
                 finish();
             }
         });

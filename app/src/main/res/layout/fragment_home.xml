@@ -32,19 +32,19 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginLeft="170dp"
-                android:src="@drawable/pl"/>
+                android:src="@drawable/pill1"/>
             <ImageView
                 android:id="@+id/pm"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginLeft="191dp"
-                android:src="@drawable/pm"/>
+                android:src="@drawable/pill2"/>
             <ImageView
                 android:id="@+id/pr"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginLeft="212dp"
-                android:src="@drawable/pr"/>
+                android:src="@drawable/pill3"/>
             </FrameLayout>
         </TableRow>
 

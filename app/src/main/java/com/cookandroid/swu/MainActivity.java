@@ -20,7 +20,7 @@ import com.cookandroid.swu.Fragment.SetFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.messaging.FirebaseMessaging;
+
 
 public class MainActivity extends AppCompatActivity {
     Fragment HomeFragment,SearchFragment,EboxFragment,PlistFragment,SetFragment;
@@ -31,27 +31,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        etToken = findViewById(R.id.etToken);
-        //fcm
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            System.out.println("Fetching FCM registration token failed");
-                            return;
-                        }
-
-                        // Get new FCM registration token
-                        String token = task.getResult();
-
-                        // Log and toast
-                        System.out.println(token);
-                        Toast.makeText(MainActivity.this, "Your device registration token is" + token, Toast.LENGTH_SHORT).show();
-
-                        etToken.setText(token);
-                    }
-                });
 
         //네비게이션바
         HomeFragment = new HomeFragment();
@@ -61,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         SetFragment = new SetFragment();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,HomeFragment).commit();
-
         NavigationBarView navigationBarView = findViewById(R.id.bottom_navigation);
         navigationBarView.setOnItemSelectedListener(new  NavigationBarView.OnItemSelectedListener() {
             @Override

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom"></FrameLayout>
-
+<!--
     <EditText
         android:id="@+id/etToken"
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:ems="10"
         android:inputType="textMultiLine|textPersonName"
         android:text="Name" />
-
+-->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/bottom"
         android:layout_width="match_parent"
