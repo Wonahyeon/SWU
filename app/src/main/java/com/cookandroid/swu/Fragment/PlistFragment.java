@@ -31,6 +31,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlistFragment extends Fragment{
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("복용약 리스트");
+    }
+
     ListView lvPlist;
     FloatingActionButton fabAdd;
     //    final int REQUESTCODE_REVIEW_WRITE = 3;
@@ -59,18 +66,6 @@ public class PlistFragment extends Fragment{
 
 
         return view;
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle("복용약 리스트");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.

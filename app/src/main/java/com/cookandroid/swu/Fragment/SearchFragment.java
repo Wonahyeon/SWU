@@ -17,6 +17,12 @@ import com.cookandroid.swu.R;
 public class SearchFragment extends Fragment {
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("검색");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -32,4 +38,6 @@ public class SearchFragment extends Fragment {
         });
         return v;
     }
+
+
 }

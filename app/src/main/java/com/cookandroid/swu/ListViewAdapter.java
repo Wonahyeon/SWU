@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -160,5 +161,7 @@ public class ListViewAdapter extends BaseAdapter {
         item.setMemo(memo);
 
         listViewItemList.add(item);
+
+
     }
 }

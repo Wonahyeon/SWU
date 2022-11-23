@@ -2,6 +2,9 @@ package com.cookandroid.swu;
 
 import android.graphics.Bitmap;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 public class ListViewItem {
     private Bitmap iconDrawable ;
     private String titleStr ;

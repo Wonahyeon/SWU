@@ -18,4 +18,10 @@ public class SetFragment extends Fragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_set, container, false);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("푸시 설정");
+    }
+
 }

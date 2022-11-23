@@ -9,9 +9,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -342,7 +345,8 @@ public class PlistActivity extends AppCompatActivity {
                                 plTime1 = hourTen+" : "+minTen+" ";
                                 btnTime[0].setText("복용 시간 1         "+plTime1);
                             }
-                        }, alarmHour, alarmMinute, true);
+                        }, alarmHour, alarmMinute, false);
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.show();
             }
         });
@@ -364,7 +368,8 @@ public class PlistActivity extends AppCompatActivity {
                                 plTime2 = hourTen+" : "+minTen+" ";
                                 btnTime[1].setText("복용 시간 2         "+plTime2);
                             }
-                        }, alarmHour, alarmMinute, true);
+                        }, alarmHour, alarmMinute, false);
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.show();
             }
         });
@@ -386,7 +391,8 @@ public class PlistActivity extends AppCompatActivity {
                                 plTime3 = hourTen+" : "+minTen+" ";
                                 btnTime[2].setText("복용 시간 3         "+plTime3);
                             }
-                        }, alarmHour, alarmMinute, true);
+                        }, alarmHour, alarmMinute, false);
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.show();
             }
         });
@@ -408,7 +414,8 @@ public class PlistActivity extends AppCompatActivity {
                                 plTime4 = hourTen+" : "+minTen+" ";
                                 btnTime[3].setText("복용 시간 4         "+plTime4);
                             }
-                        }, alarmHour, alarmMinute, true);
+                        }, alarmHour, alarmMinute, false);
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.show();
             }
         });
@@ -430,7 +437,8 @@ public class PlistActivity extends AppCompatActivity {
                                 plTime5 = hourTen+" : "+minTen+" ";
                                 btnTime[4].setText("복용 시간 5         "+plTime5);
                             }
-                        }, alarmHour, alarmMinute, true);
+                        }, alarmHour, alarmMinute, false);
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.show();
             }
         });
@@ -452,7 +460,8 @@ public class PlistActivity extends AppCompatActivity {
                                 plTime6 = hourTen+" : "+minTen+" ";
                                 btnTime[5].setText("복용 시간 6         "+plTime6);
                             }
-                        }, alarmHour, alarmMinute, true);
+                        }, alarmHour, alarmMinute, false);
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.show();
             }
         });
