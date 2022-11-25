@@ -2,8 +2,8 @@ package com.cookandroid.swu;
 
 import android.graphics.Bitmap;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import androidx.annotation.NonNull;
+
 
 public class ListViewItem {
     private Bitmap iconDrawable ;
@@ -12,12 +12,19 @@ public class ListViewItem {
     private String dateStr;
     private String memoStr ;
 
+    public ListViewItem(){
+
+    }
+
     public void setIcon(Bitmap icon) {
         iconDrawable = icon ;
     }
+
     public void setTitle(String title) {
         titleStr = title ;
     }
+
+
     public void setDesc(String desc) { descStr = desc ; }
     public void setDate(String date) { dateStr = date ; }
     public void setMemo(String memo) { memoStr = memo ; }

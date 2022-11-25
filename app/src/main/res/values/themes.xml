@@ -18,4 +18,6 @@
         <item name="android:radioButtonStyle">@style/customRadioButtonFontStyle</item>
         <item name="android:checkboxStyle">@style/customCheckboxFontStyle</item>
     </style>
+
+
 </resources>

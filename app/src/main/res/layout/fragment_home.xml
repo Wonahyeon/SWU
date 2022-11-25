@@ -4,45 +4,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginTop="10dp"
     tools:context=".Fragment.HomeFragment">
-    <CalendarView
+
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/calendarView"
+        android:background="@drawable/background"
+        android:gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="40dp"
+        android:padding="2dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"/>
+        app:mcv_showOtherDates="defaults"
+        app:mcv_selectionColor="#b5d692"/>
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/background"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/Ename"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="약이름"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:id="@+id/drugTime"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:src="@drawable/pill" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/background"
+        android:weightSum="3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         android:padding="10dp">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="약이름"
-            android:gravity="center"
             android:textSize="20dp"/>
-        <ImageView
-            android:id="@+id/drugTime"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_weight="1"
-            android:src="@drawable/pill"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="약이름 버려주세요"
-            android:gravity="center"
+            android:text="버려주세요"
             android:textSize="20dp"/>
         <ImageView
             android:id="@+id/imgBin"
             android:layout_width="0dp"
-            android:layout_height="20dp"
+            android:layout_height="25dp"
             android:layout_weight="1"
             android:src="@drawable/bin"/>
     </LinearLayout>

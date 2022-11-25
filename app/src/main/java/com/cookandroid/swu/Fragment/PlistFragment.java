@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class PlistFragment extends Fragment{
     }
 
     ListView lvPlist;
-    FloatingActionButton fabAdd;
+    Button fabAdd;
     //    final int REQUESTCODE_REVIEW_WRITE = 3;
     public static AdapterPlistTime plAdapter = new AdapterPlistTime();
 

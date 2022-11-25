@@ -5,12 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +32,18 @@ import com.cookandroid.swu.PlistActivity;
 import com.cookandroid.swu.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.format.TitleFormatter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static androidx.navigation.Navigation.createNavigateOnClickListener;
 import static androidx.navigation.Navigation.findNavController;
@@ -42,10 +56,9 @@ public class HomeFragment extends Fragment {
     }
 
     Context context;
-    ListView plistItem, eboxItem;
-    ArrayAdapter<String> adapter;
-    ArrayList<String> listItem;
     Button Yes,No;
+    public MaterialCalendarView materialCalendarView;
+    public TextView eName;
 
 
 
@@ -53,11 +66,53 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         return view;
     }
     public void onViewCreated(@NonNull View view, Bundle savedInstancedState) {
         super.onViewCreated(view, savedInstancedState);
+        eName = view.findViewById(R.id.Ename);
+
+        materialCalendarView = view.findViewById(R.id.calendarView);
+        materialCalendarView.state().edit()
+                .setFirstDayOfWeek(Calendar.SUNDAY)
+                .setMinimumDate(CalendarDay.from(2022,10,1))
+                .setMaximumDate(CalendarDay.from(2032,11,31))
+                .setCalendarDisplayMode(CalendarMode.MONTHS)
+                .commit();
+        materialCalendarView.setSelectedDate(CalendarDay.today());
+        materialCalendarView.addDecorators(
+                new HomeFragment.SundayDecorator(),
+                new HomeFragment.SaturdayDecorator(),
+                new HomeFragment.OneDayDecorator());
+        materialCalendarView.setTitleFormatter(new TitleFormatter() {
+            @Override
+            public CharSequence format(CalendarDay day) {
+                Date inputText = day.getDate();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String getTime = sdf.format(inputText);
+
+                String[] calendarHeaderElements = getTime.split("-");
+                StringBuilder calendarHeaderBuilder = new StringBuilder();
+                calendarHeaderBuilder.append(calendarHeaderElements[0])
+                        .append("년")
+                        .append(" ")
+                        .append(calendarHeaderElements[1])
+                        .append("월");
+                return calendarHeaderBuilder.toString();
+            }
+        });
+        materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                int year = date.getYear();
+                int month = date.getMonth()+1;
+                int day = date.getDay();
+
+
+            }
+        });
+
+
         context = ((MainActivity) getActivity()).getApplicationContext();
         view.findViewById(R.id.imgBin).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,8 +157,56 @@ public class HomeFragment extends Fragment {
     }
 
 
+    private class SundayDecorator implements DayViewDecorator {
+        private final Calendar calendar = Calendar.getInstance();
 
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            day.copyTo(calendar);
+            int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+            return weekDay == Calendar.SUNDAY;
+        }
 
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new ForegroundColorSpan(Color.RED));
 
+        }
+    }
+
+    private class SaturdayDecorator implements DayViewDecorator {
+        private final Calendar calendar = Calendar.getInstance();
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            day.copyTo(calendar);
+            int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+            return weekDay == Calendar.SATURDAY;
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new ForegroundColorSpan(Color.BLUE));
+        }
+    }
+
+    public class OneDayDecorator implements DayViewDecorator {
+        private CalendarDay date;
+        public OneDayDecorator(){
+            date = CalendarDay.today();
+        }
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            return date != null && day.equals(date);
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new StyleSpan(Typeface.BOLD));
+            view.addSpan(new RelativeSizeSpan(1.4f));
+        }
+        public void setDate(Date date){
+            this.date = CalendarDay.from(date);
+        }
+    }
 
 }
