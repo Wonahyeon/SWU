@@ -77,8 +77,8 @@ public class EboxAdd extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ebox_add);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼
         ActionBar ac=getSupportActionBar();
+        ac.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼
         ac.setTitle("우리집 구급함 약 추가하기"); //actionbar추가
 
         EboxFragment tf = (EboxFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
