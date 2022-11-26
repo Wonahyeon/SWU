@@ -74,9 +74,9 @@ public class PlistFragment extends Fragment{
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public static void addItem(Bitmap icon, String name, String memo, String day,
+    public static void addItem(Integer listCount, Bitmap icon, String name, String memo, String day,
                                String time1, String time2, String time3, String time4, String time5, String time6) {
-        plAdapter.addItem(icon, name, memo, day, time1, time2, time3, time4, time5, time6);
+        plAdapter.addItem(listCount, icon, name, memo, day, time1, time2, time3, time4, time5, time6);
         plAdapter.notifyDataSetChanged();
     }
 

@@ -50,8 +50,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlistActivity extends AppCompatActivity {
-    public static Integer plListCount = 1;
-    public static String plName="", plMemo="", plDay="";
+    Integer plListCount = 1;
+    String plName="", plMemo="", plDay="";
+    String[] plRealDay = {"월", "화", "수", "목", "금", "토", "일"};
     String imagePath="";
     ImageButton plistBtnPicture;
     EditText plistEdtName, plistEdtRealMemo;
@@ -69,7 +70,7 @@ public class PlistActivity extends AppCompatActivity {
     final int CAMERA = 100; // 카메라 선택 시 인텐트로 보내는 값
     final int GALLERY = 101; // 갤러리 선택 시 인텐트로 보내는 값
     Intent intentC, intentG;
-    public static Bitmap bitmap = null;
+    Bitmap bitmap = null;
 
 
 
@@ -298,18 +299,17 @@ public class PlistActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     // count 개수를 세서 한 번 클릭하면 pressed 상태, 두 번 클릭하면 not pressed 상태로 변경
+                    if(count[index] > 0) count[index] = 0;
                     count[index] += 1;
                     if(count[index] % 2 == 1) {
                         btnDay[index].setSelected(true);
                         plDay += btnDay[index].getText().toString();
-                        System.out.println(plDay);
-                    }
+                    } // pressed
                     else if(count[index] % 2 == 0) {
                         btnDay[index].setSelected(false);
                         count[index] = 0;
                         plDay = plDay.replace(btnDay[index].getText().toString(), "");
-                        System.out.println(plDay);
-                    }
+                    } // not pressed
                 }
             });
         }
@@ -466,13 +466,26 @@ public class PlistActivity extends AppCompatActivity {
                 plName = plistEdtName.getText().toString();
                 plMemo = plistEdtRealMemo.getText().toString();
                 Bitmap plBitmap = null;
-                if(bitmap == null) plBitmap = bitmap;
+                if(bitmap == null) plBitmap = null; // 사진을 찍거나 고르지 않았으면 null로 저장
                 else plBitmap = bitmap;
 
+                HashMap<Integer, String> tmp = new HashMap<Integer, String>();
+                for(int i = 0 ;i< plDay.length();i++){
+                    for(int j = 0 ; j < 7; j++){
+                        if (plRealDay[j].equals(plDay.substring(i, i+1))){
+                            tmp.put(j, plRealDay[j]);
+                        }
+                    }
+                }
+                plDay = "";
+                for(int i = 0 ;i < 7; i++){
+                    if(tmp.containsKey(i))
+                        plDay += tmp.get(i);
+                }
 
                 if(!plName.equals("")){
                     PlistFragment plistFragment = (PlistFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                    plistFragment.addItem(plBitmap, plName, plMemo, plDay, plTime1, plTime2, plTime3, plTime4, plTime5, plTime6);
+                    plistFragment.addItem(plListCount, plBitmap, plName, plMemo, plDay, plTime1, plTime2, plTime3, plTime4, plTime5, plTime6);
                     plDay = "";
                     finish();
                 }
