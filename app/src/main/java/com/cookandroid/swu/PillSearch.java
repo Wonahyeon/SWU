@@ -60,24 +60,14 @@ public class PillSearch extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     @Override
-    public void onBackPressed() {
-        // 버튼을 누르면 메인화면으로 이동
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
-        super.onBackPressed();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_pill);
+
         ActionBar ac=getSupportActionBar();
         ac.setDisplayHomeAsUpEnabled(true);
         ac.setTitle("약 이름으로 검색하기"); //actionbar추가
 
-        list = new ArrayList<>();
 
         edit = (EditText) findViewById(R.id.edit);
         imageView = (ImageView) findViewById(R.id.list_image);
@@ -94,9 +84,6 @@ public class PillSearch extends AppCompatActivity {
         // progressDialog 객체 선언
         progressDialog = new ProgressDialog(this);
 
-        adapter = new NameAdapter(getApplicationContext(), list);//앞의 인자는 application context를 제공하며, 뒤에 인자는 위에서 값을 넣어준 list.
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();//어댑터에 연결된 항목들을 갱신함.
 
     }
 
@@ -146,6 +133,7 @@ public class PillSearch extends AppCompatActivity {
                     // 이 경우를 막기 위해 안드로이드 개발자들은 핸들러라는 것을 만들어서 쓰는 것이다.
 
                     @Override
+
                     public void run() {
                         // TODO Auto-generated method stub
                         //아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
@@ -165,9 +153,9 @@ public class PillSearch extends AppCompatActivity {
                     }
                 }).start();
             }
-
         }
     }
+
 
     //MyAsyncTask의 첫번째 인자는 doInBackground의 파라미터 타입이 될것이다.
     //두번째 인자는 doInBackground 작업 시 진행 단위의 타입
@@ -227,7 +215,7 @@ public class PillSearch extends AppCompatActivity {
                 while (eventType != XmlPullParser.END_DOCUMENT) {
                     switch (eventType) {
                         case XmlPullParser.START_DOCUMENT://eventType이 START_DOCUMENT일 경우
-                           // list = new ArrayList<>();//배열을 선언해줌
+                            list = new ArrayList<>();//배열을 선언해줌
                             break;
                         case XmlPullParser.END_TAG://eventType이 END_TAG일 경우, 태그가 끝나는 부분
                             if (parser.getName().equals("item") && nameDrug != null) {//Tag 이름이 item일경우
@@ -292,6 +280,7 @@ public class PillSearch extends AppCompatActivity {
         }
 
         @Override
+
         protected void onPostExecute (String s){//adapter를 연결해주는 부분. 이 코드를 이용해 AsyncTask를 실행한다.
             //결과 파라미터를 리턴하면서 그 리턴값을 통해 스레드 작업이 끝났을 때의 동작을 구현합니다.
 
@@ -302,9 +291,9 @@ public class PillSearch extends AppCompatActivity {
 
 
             //어답터 연결.
-           /* adapter = new NameAdapter(getApplicationContext(), list);//앞의 인자는 application context를 제공하며, 뒤에 인자는 위에서 값을 넣어준 list.
+            adapter = new NameAdapter(getApplicationContext(), list);//앞의 인자는 application context를 제공하며, 뒤에 인자는 위에서 값을 넣어준 list.
             recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();//어댑터에 연결된 항목들을 갱신함.*/
+            adapter.notifyDataSetChanged();//어댑터에 연결된 항목들을 갱신함.
 
 
             if (list.size() != 0) {
@@ -316,4 +305,3 @@ public class PillSearch extends AppCompatActivity {
         }
     }
 }
-

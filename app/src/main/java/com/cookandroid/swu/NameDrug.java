@@ -1,6 +1,7 @@
 package com.cookandroid.swu;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 //getter와 setter를 정의함. 이것을 이용해서 값을 저장하고 불러올것임
 public class NameDrug {
@@ -15,41 +16,28 @@ public class NameDrug {
     public String getClassName() {
         return className;
     }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    public String getEtcOtcName() {
-        return etcOtcName;
-    }
-
-    public void setEtcOtcName(String etcOtcName) {
-        this.etcOtcName = etcOtcName;
-    }
-
+    public String getEtcOtcName() { return etcOtcName; }
     public Bitmap getImage() {
         return image;
     }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
-    }
-
-    public String getDrugName() {
-        return drugName;
-    }
-
-    public void setDrugName(String drugName) {
-        this.drugName = drugName;
-    }
-
+    public String getDrugName() { return drugName; }
     public String getCompany() {
         return company;
     }
 
+    public void setClassName(String className) { this.className = className; }
+    public void setEtcOtcName(String etcOtcName) {
+        this.etcOtcName = etcOtcName;
+    }
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+    public void setDrugName(String drugName) {
+        this.drugName = drugName;
+    }
     public void setCompany(String company) {
         this.company = company;
     }
+
 
 }
