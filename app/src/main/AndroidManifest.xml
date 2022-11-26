@@ -10,10 +10,7 @@
 
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true" />
-
-
-    <!-- 카메라/갤러리 -->
+        android:required="true" /> <!-- 카메라/갤러리 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -21,11 +18,10 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
-    <!--firebase-->
+        android:required="false" /> <!-- firebase -->
     <uses-permission android:name="android.permission.INTERNET " />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 맵 -->
-    <!--  맵  -->
+    <!-- 맵 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.goolge.android.providers.gsf.permission.READ_GSERVICES" />
@@ -35,6 +31,7 @@
         android:value="@integer/google_play_services_version" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="false"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
@@ -42,14 +39,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SWU">
-        <activity android:name=".PlistActivity"></activity>
+        <activity android:name=".PlistActivity" />
         <activity android:name=".HomeDel" />
         <activity
             android:name=".EboxAdd"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".EboxAdd" />
         <activity android:name=".DsSearch" />
-        <activity android:name=".PillSearch" />
+        <activity
+            android:name=".PillSearch"
+            android:exported="false"
+            android:parentActivityName=".DsSearch" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,8 +68,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/external" />
-        </provider>
-        <!-- map API키 -->
+        </provider> <!-- map API키 -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB8EppTWA_tqiA4TVfX74jJNCDy2ARyzzs" />
