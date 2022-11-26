@@ -24,7 +24,6 @@
     <!-- 맵 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="com.goolge.android.providers.gsf.permission.READ_GSERVICES" />
 
     <meta-data
         android:name="com.google.android.gms.version"
@@ -68,10 +67,11 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/external" />
-        </provider> <!-- map API키 -->
+        </provider>
+        <!-- map API키-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB8EppTWA_tqiA4TVfX74jJNCDy2ARyzzs" />
+            android:value="AIzaSyBtmz_f0Xep_Y897O5TxEwu9J_wO1IouLs" />
     </application>
 
 </manifest>

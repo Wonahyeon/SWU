@@ -3,22 +3,29 @@ package com.cookandroid.swu;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,33 +35,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TimePicker;
-import android.widget.Toast;
-
 import com.cookandroid.swu.Fragment.PlistFragment;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 public class PlistActivity extends AppCompatActivity {
-    public static Integer plListCount = 1;
-    public static String plName="", plMemo="", plDay="";
+    Integer plListCount = 1;
+    String plName="", plMemo="", plDay="";
+    String[] plRealDay = {"월", "화", "수", "목", "금", "토", "일"};
     String imagePath="";
     ImageButton plistBtnPicture;
     EditText plistEdtName, plistEdtRealMemo;
@@ -72,7 +65,7 @@ public class PlistActivity extends AppCompatActivity {
     final int CAMERA = 100; // 카메라 선택 시 인텐트로 보내는 값
     final int GALLERY = 101; // 갤러리 선택 시 인텐트로 보내는 값
     Intent intentC, intentG;
-    public static Bitmap bitmap = null;
+    Bitmap bitmap = null;
 
 
 
@@ -301,18 +294,17 @@ public class PlistActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     // count 개수를 세서 한 번 클릭하면 pressed 상태, 두 번 클릭하면 not pressed 상태로 변경
+                    if(count[index] > 0) count[index] = 0;
                     count[index] += 1;
                     if(count[index] % 2 == 1) {
                         btnDay[index].setSelected(true);
                         plDay += btnDay[index].getText().toString();
-                        System.out.println(plDay);
-                    }
+                    } // pressed
                     else if(count[index] % 2 == 0) {
                         btnDay[index].setSelected(false);
                         count[index] = 0;
                         plDay = plDay.replace(btnDay[index].getText().toString(), "");
-                        System.out.println(plDay);
-                    }
+                    } // not pressed
                 }
             });
         }
@@ -345,8 +337,7 @@ public class PlistActivity extends AppCompatActivity {
                                 plTime1 = hourTen+" : "+minTen+" ";
                                 btnTime[0].setText("복용 시간 1         "+plTime1);
                             }
-                        }, alarmHour, alarmMinute, false);
-                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
             }
         });
@@ -368,8 +359,7 @@ public class PlistActivity extends AppCompatActivity {
                                 plTime2 = hourTen+" : "+minTen+" ";
                                 btnTime[1].setText("복용 시간 2         "+plTime2);
                             }
-                        }, alarmHour, alarmMinute, false);
-                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
             }
         });
@@ -391,8 +381,7 @@ public class PlistActivity extends AppCompatActivity {
                                 plTime3 = hourTen+" : "+minTen+" ";
                                 btnTime[2].setText("복용 시간 3         "+plTime3);
                             }
-                        }, alarmHour, alarmMinute, false);
-                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
             }
         });
@@ -414,8 +403,7 @@ public class PlistActivity extends AppCompatActivity {
                                 plTime4 = hourTen+" : "+minTen+" ";
                                 btnTime[3].setText("복용 시간 4         "+plTime4);
                             }
-                        }, alarmHour, alarmMinute, false);
-                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
             }
         });
@@ -437,8 +425,7 @@ public class PlistActivity extends AppCompatActivity {
                                 plTime5 = hourTen+" : "+minTen+" ";
                                 btnTime[4].setText("복용 시간 5         "+plTime5);
                             }
-                        }, alarmHour, alarmMinute, false);
-                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
             }
         });
@@ -460,8 +447,7 @@ public class PlistActivity extends AppCompatActivity {
                                 plTime6 = hourTen+" : "+minTen+" ";
                                 btnTime[5].setText("복용 시간 6         "+plTime6);
                             }
-                        }, alarmHour, alarmMinute, false);
-                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        }, alarmHour, alarmMinute, true);
                 timePickerDialog.show();
             }
         });
@@ -475,13 +461,26 @@ public class PlistActivity extends AppCompatActivity {
                 plName = plistEdtName.getText().toString();
                 plMemo = plistEdtRealMemo.getText().toString();
                 Bitmap plBitmap = null;
-                if(bitmap == null) plBitmap = bitmap;
+                if(bitmap == null) plBitmap = null; // 사진을 찍거나 고르지 않았으면 null로 저장
                 else plBitmap = bitmap;
 
+                HashMap<Integer, String> tmp = new HashMap<Integer, String>();
+                for(int i = 0 ;i< plDay.length();i++){
+                    for(int j = 0 ; j < 7; j++){
+                        if (plRealDay[j].equals(plDay.substring(i, i+1))){
+                            tmp.put(j, plRealDay[j]);
+                        }
+                    }
+                }
+                plDay = "";
+                for(int i = 0 ;i < 7; i++){
+                    if(tmp.containsKey(i))
+                        plDay += tmp.get(i);
+                }
 
                 if(!plName.equals("")){
                     PlistFragment plistFragment = (PlistFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                    plistFragment.addItem(plBitmap, plName, plMemo, plDay, plTime1, plTime2, plTime3, plTime4, plTime5, plTime6);
+                    plistFragment.addItem(plListCount, plBitmap, plName, plMemo, plDay, plTime1, plTime2, plTime3, plTime4, plTime5, plTime6);
                     plDay = "";
                     finish();
                 }

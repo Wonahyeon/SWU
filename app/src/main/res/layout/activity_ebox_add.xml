@@ -125,7 +125,6 @@
         android:id="@+id/ebox_save"
         android:text="저장"
         android:layout_alignParentBottom="true"
-
         android:background="#b5d692"/>
 
 </RelativeLayout>

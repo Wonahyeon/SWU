@@ -1,37 +1,35 @@
 package com.cookandroid.swu;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class ListViewAdapter extends BaseAdapter {
 
+    private FirebaseDatabase database;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>() ;
 
     private TextView name,date,memo;
     private Button ok, yes, no;
+
 
     // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
     @Override
@@ -42,6 +40,9 @@ public class ListViewAdapter extends BaseAdapter {
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        database=FirebaseDatabase.getInstance();
+
         final int pos = position;
         final Context context = parent.getContext();
 
@@ -79,7 +80,6 @@ public class ListViewAdapter extends BaseAdapter {
                 date = (TextView)eboxdialog.findViewById(R.id.dia_date);
                 memo = (TextView)eboxdialog.findViewById(R.id.dia_memo);
                 ok = (Button)eboxdialog.findViewById(R.id.dia_save);
-
 
                 name.setText(listViewItemList.get(pos).getTitle());
                 date.setText(listViewItemList.get(pos).getDate());

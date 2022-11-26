@@ -1,9 +1,5 @@
 package com.cookandroid.swu;
 
-
-import static com.cookandroid.swu.PlistActivity.plDay;
-import static com.cookandroid.swu.PlistActivity.plListCount;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -24,10 +20,14 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class AdapterPlistTime extends BaseAdapter{
-    ArrayList<Integer> btnListCount = new ArrayList<Integer>();
     String memo, day;
+    // 버튼이 체크되었는지 확인
+    HashMap<String, Integer> check = new HashMap<String, Integer>();
+    // 버튼이 체크되었으면 당시 getTime변수를 가져옴, 아니면 미리 지정해둔 listviewitem의 getPlTime1(), .. 이용
+    HashMap<String, String> time = new HashMap<String, String>();
 
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<ListViewItemPlistTime> listViewItemList = new ArrayList<ListViewItemPlistTime>();
@@ -74,7 +74,6 @@ public class AdapterPlistTime extends BaseAdapter{
         }
         LinearLayout plLinear = convertView.findViewById(R.id.plLinear);
 
-
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         final ListViewItemPlistTime listViewItem = listViewItemList.get(position);
 
@@ -83,98 +82,132 @@ public class AdapterPlistTime extends BaseAdapter{
         plistLvtName.setText(listViewItem.getName());
         memo = listViewItem.getMemo();
         day = listViewItem.getDay();
+        Integer btnListCount = listViewItem.getPlListCount();
 
         // 해당 요일이면 시간 버튼을 보여줌
         if (day.contains(getDay)) {
             plistLvtDay.setVisibility(View.GONE);
             // listCount에 따라 버튼 보이도록
-            switch (btnListCount.get(position)) {
+            switch (btnListCount) {
                 case 1:
                     for(int i=0;i < 6;i++){
                         final int index = i;
-                        if (index == 0) {
-                            btnTime[index].setVisibility(View.VISIBLE);
-                            btnTime[index].setText(listViewItem.getTime1());
+                        switch (index){
+                            case 0:
+                                btnTime[0].setVisibility(View.VISIBLE);
+                                btnTime[0].setText(listViewItem.getChangedTime1());
+                                break;
+                            default:
+                                btnTime[index].setVisibility(View.GONE); break;
                         }
-                        else btnTime[index].setVisibility(View.GONE);
                     } break;
                 case 2:
                     for(int i=0;i < 6;i++){
                         final int index = i;
-                        if (index >= 0 && index <= 1) {
-                            btnTime[index].setVisibility(View.VISIBLE);
-                            if(index == 0)
-                                btnTime[index].setText(listViewItem.getTime1());
-                            else
-                                btnTime[index].setText(listViewItem.getTime2());
+                        switch (index){
+                            case 0:
+                                btnTime[0].setVisibility(View.VISIBLE);
+                                btnTime[0].setText(listViewItem.getChangedTime1());
+                                break;
+                            case 1:
+                                btnTime[1].setVisibility(View.VISIBLE);
+                                btnTime[1].setText(listViewItem.getChangedTime2());
+                                break;
+                            default:
+                                btnTime[index].setVisibility(View.GONE); break;
                         }
-                        else btnTime[index].setVisibility(View.GONE);
                     } break;
                 case 3:
                     for(int i=0;i < 6;i++){
                         final int index = i;
-                        if (index >= 0 && index <= 2) {
-                            btnTime[index].setVisibility(View.VISIBLE);
-                            if(index == 0)
-                                btnTime[index].setText(listViewItem.getTime1());
-                            else if(index == 1)
-                                btnTime[index].setText(listViewItem.getTime2());
-                            else
-                                btnTime[index].setText(listViewItem.getTime3());
+                        switch (index){
+                            case 0:
+                                btnTime[0].setVisibility(View.VISIBLE);
+                                btnTime[0].setText(listViewItem.getChangedTime1());
+                                break;
+                            case 1:
+                                btnTime[1].setVisibility(View.VISIBLE);
+                                btnTime[1].setText(listViewItem.getChangedTime2());
+                                break;
+                            case 2:
+                                btnTime[2].setVisibility(View.VISIBLE);
+                                btnTime[2].setText(listViewItem.getChangedTime3());
+                                break;
+                            default:
+                                btnTime[index].setVisibility(View.GONE); break;
                         }
-                        else btnTime[index].setVisibility(View.GONE);
                     } break;
                 case 4:
                     for(int i=0;i < 6;i++){
                         final int index = i;
-                        if (index >= 0 && index <= 3) {
-                            btnTime[index].setVisibility(View.VISIBLE);
-                            if(index == 0)
-                                btnTime[index].setText(listViewItem.getTime1());
-                            else if(index == 1)
-                                btnTime[index].setText(listViewItem.getTime2());
-                            else if(index == 2)
-                                btnTime[index].setText(listViewItem.getTime3());
-                            else
-                                btnTime[index].setText(listViewItem.getTime4());
+                        switch (index){
+                            case 0:
+                                btnTime[0].setVisibility(View.VISIBLE);
+                                btnTime[0].setText(listViewItem.getChangedTime1());
+                                break;
+                            case 1:
+                                btnTime[1].setVisibility(View.VISIBLE);
+                                btnTime[1].setText(listViewItem.getChangedTime2());
+                                break;
+                            case 2:
+                                btnTime[2].setVisibility(View.VISIBLE);
+                                btnTime[2].setText(listViewItem.getChangedTime3());
+                                break;
+                            case 3:
+                                btnTime[3].setVisibility(View.VISIBLE);
+                                btnTime[3].setText(listViewItem.getChangedTime4());
+                                break;
+                            default:
+                                btnTime[index].setVisibility(View.GONE); break;
                         }
-                        else btnTime[index].setVisibility(View.GONE);
                     } break;
                 case 5:
                     for(int i=0;i < 6;i++){
                         final int index = i;
-                        if (index >= 0 && index <= 4) {
-                            btnTime[index].setVisibility(View.VISIBLE);
-                            if(index == 0)
-                                btnTime[index].setText(listViewItem.getTime1());
-                            else if(index == 1)
-                                btnTime[index].setText(listViewItem.getTime2());
-                            else if(index == 2)
-                                btnTime[index].setText(listViewItem.getTime3());
-                            else if(index == 3)
-                                btnTime[index].setText(listViewItem.getTime4());
-                            else
-                                btnTime[index].setText(listViewItem.getTime5());
+                        switch (index){
+                            case 0:
+                                btnTime[0].setVisibility(View.VISIBLE);
+                                btnTime[0].setText(listViewItem.getChangedTime1());
+                                break;
+                            case 1:
+                                btnTime[1].setVisibility(View.VISIBLE);
+                                btnTime[1].setText(listViewItem.getChangedTime2());
+                                break;
+                            case 2:
+                                btnTime[2].setVisibility(View.VISIBLE);
+                                btnTime[2].setText(listViewItem.getChangedTime3());
+                                break;
+                            case 3:
+                                btnTime[3].setVisibility(View.VISIBLE);
+                                btnTime[3].setText(listViewItem.getChangedTime4());
+                                break;
+                            case 4:
+                                btnTime[4].setVisibility(View.VISIBLE);
+                                btnTime[4].setText(listViewItem.getChangedTime5());
+                                break;
+                            default:
+                                btnTime[index].setVisibility(View.GONE); break;
                         }
-                        else btnTime[index].setVisibility(View.GONE);
                     } break;
                 case 6:
-                    for(int i=0;i < 6;i++){
+                    for(int i=0;i < 6;i++) {
                         final int index = i;
                         btnTime[index].setVisibility(View.VISIBLE);
-                        if(index == 0)
-                            btnTime[index].setText(listViewItem.getTime1());
-                        else if(index == 1)
-                            btnTime[index].setText(listViewItem.getTime2());
-                        else if(index == 2)
-                            btnTime[index].setText(listViewItem.getTime3());
-                        else if(index == 3)
-                            btnTime[index].setText(listViewItem.getTime4());
-                        else if(index == 4)
-                            btnTime[index].setText(listViewItem.getTime5());
-                        else
-                            btnTime[index].setText(listViewItem.getTime6());
-                    } break;
+                        switch (index){
+                            case 0:
+                                btnTime[index].setText(listViewItem.getChangedTime1()); break;
+                            case 1:
+                                btnTime[index].setText(listViewItem.getChangedTime2()); break;
+                            case 2:
+                                btnTime[index].setText(listViewItem.getChangedTime3()); break;
+                            case 3:
+                                btnTime[index].setText(listViewItem.getChangedTime4()); break;
+                            case 4:
+                                btnTime[index].setText(listViewItem.getChangedTime5()); break;
+                            case 5:
+                                btnTime[index].setText(listViewItem.getChangedTime6()); break;
+                        }
+                    }
             }
         }
         else {
@@ -200,6 +233,7 @@ public class AdapterPlistTime extends BaseAdapter{
                         public void onClick(DialogInterface dialog, int which) {
                             btnTime[index].setBackgroundResource(R.drawable.pill_fill);
                             btnTime[index].setText(getTime);
+                            listViewItem.setChangedTime1(getTime);
                         }
                     });
                     dialog.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
@@ -208,17 +242,23 @@ public class AdapterPlistTime extends BaseAdapter{
                             btnTime[index].setBackgroundResource(R.drawable.pill);
                             switch (index){
                                 case 0:
-                                    btnTime[index].setText(listViewItem.getTime1()); break;
+                                    btnTime[index].setText(listViewItem.getTime1());
+                                    check.put(listViewItemList.size()+"_"+index, 0); break; // 먹지 않았으면 체크 X ( = 0 )
                                 case 1:
-                                    btnTime[index].setText(listViewItem.getTime2()); break;
+                                    btnTime[index].setText(listViewItem.getTime2());
+                                    check.put(listViewItemList.size()+"_"+index, 0); break;
                                 case 2:
-                                    btnTime[index].setText(listViewItem.getTime3()); break;
+                                    btnTime[index].setText(listViewItem.getTime3());
+                                    check.put(listViewItemList.size()+"_"+index, 0); break;
                                 case 3:
-                                    btnTime[index].setText(listViewItem.getTime4()); break;
+                                    btnTime[index].setText(listViewItem.getTime4());
+                                    check.put(listViewItemList.size()+"_"+index, 0); break;
                                 case 4:
-                                    btnTime[index].setText(listViewItem.getTime5()); break;
+                                    btnTime[index].setText(listViewItem.getTime5());
+                                    check.put(listViewItemList.size()+"_"+index, 0); break;
                                 case 5:
-                                    btnTime[index].setText(listViewItem.getTime6()); break;
+                                    btnTime[index].setText(listViewItem.getTime6());
+                                    check.put(listViewItemList.size()+"_"+index, 0); break;
                             }
 
                         }
@@ -304,11 +344,11 @@ public class AdapterPlistTime extends BaseAdapter{
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Bitmap icon, String name, String memo, String day,
+    public void addItem(Integer listCount, Bitmap icon, String name, String memo, String day,
                         String time1, String time2, String time3, String time4, String time5, String time6) {
-        btnListCount.add(plListCount);
         ListViewItemPlistTime item = new ListViewItemPlistTime();
 
+        item.setListCount(listCount);
         item.setBitmap(icon);
         item.setName(name);
         item.setMemo(memo);

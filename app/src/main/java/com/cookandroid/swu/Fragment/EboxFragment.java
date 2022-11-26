@@ -3,22 +3,17 @@ package com.cookandroid.swu.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+
+import androidx.fragment.app.Fragment;
 
 import com.cookandroid.swu.EboxAdd;
 import com.cookandroid.swu.ListViewAdapter;
 import com.cookandroid.swu.R;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.List;
 
 
 public class EboxFragment extends Fragment {
@@ -29,9 +24,11 @@ public class EboxFragment extends Fragment {
         getActivity().setTitle("우리집 구급함");
     }
 
+
     Button addbutton;
     ListView customListView;
     private static ListViewAdapter listViewAdapter= new ListViewAdapter();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,8 +36,10 @@ public class EboxFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_ebox, container, false);
 
+
         customListView = (ListView) v.findViewById(R.id.listView_custom);
         customListView.setAdapter(listViewAdapter);
+
 
         addbutton =(Button) v.findViewById(R.id.addbtn);
 

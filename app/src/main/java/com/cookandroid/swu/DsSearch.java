@@ -1,11 +1,5 @@
 package com.cookandroid.swu;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +15,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -143,6 +143,7 @@ public class DsSearch extends AppCompatActivity
         //지도의 초기위치를 서울로 이동
         setDefaultLocation();
 
+
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
@@ -183,15 +184,11 @@ public class DsSearch extends AppCompatActivity
 
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
             @Override
-            public void onMapClick(LatLng latLng) {
-
-                Log.d( TAG, "onMapClick :");
+            public void onMapClick(@NonNull LatLng latLng) {
+                Log.d(TAG, "onMapClick");
             }
         });
-
-
     }
 
     LocationCallback locationCallback = new LocationCallback() {
@@ -214,19 +211,13 @@ public class DsSearch extends AppCompatActivity
                 Log.d(TAG, "onLocationResult : " + markerSnippet);
 
                 mark();
+                mCurrentLocation = location;
 
-                while(count<=2){
-                    setCurrentLocation(location, markerTitle, markerSnippet);
-                    mCurrentLocation = location;
-
-                    count ++;
-                }
                 mBtnMyLocation.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //현재 위치에 마커 생성하고 이동
                         setCurrentLocation(location, markerTitle, markerSnippet);
-                        mCurrentLocation = location;
                     }
                 });
 
@@ -254,6 +245,7 @@ public class DsSearch extends AppCompatActivity
                 Log.d(TAG, "startLocationUpdates : 퍼미션 안가지고 있음");
                 return;
             }
+
 
             Log.d(TAG, "startLocationUpdates : call mFusedLocationClient.requestLocationUpdates");
 
@@ -342,6 +334,8 @@ public class DsSearch extends AppCompatActivity
         markerOptions.title(markerTitle);
         markerOptions.snippet(markerSnippet);
         markerOptions.draggable(true);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(340));
+        markerOptions.alpha(0.7F);
 
         currentMarker = mMap.addMarker(markerOptions);
 
@@ -363,7 +357,8 @@ public class DsSearch extends AppCompatActivity
         markerOptions.title(markerTitle);
         markerOptions.snippet(markerSnippet);
         markerOptions.draggable(true);
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(340));
+        markerOptions.alpha(0.7F);
         currentMarker = mMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
@@ -444,7 +439,6 @@ public class DsSearch extends AppCompatActivity
 
     //여기부터는 GPS 활성화를 위한 메소드들
     private void showDialogForLocationServiceSetting() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(DsSearch.this);
         builder.setTitle("위치 서비스 비활성화");
         builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
@@ -512,7 +506,8 @@ public class DsSearch extends AppCompatActivity
                     markerOptions.position(latLng);
                     markerOptions.title(place.getName());
                     markerOptions.snippet(markerSnippet);
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(70));
+                    markerOptions.alpha(0.7F);
 
                     Marker item = mMap.addMarker(markerOptions);
                     previous_marker.add(item);
@@ -557,8 +552,9 @@ public class DsSearch extends AppCompatActivity
             public void onMapClick(@NonNull LatLng latLng) {
                 mMap.clear();
                 MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                 markerOptions.position(latLng);
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(200));
+                markerOptions.alpha(0.7F);
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                 mMap.addMarker(markerOptions);
