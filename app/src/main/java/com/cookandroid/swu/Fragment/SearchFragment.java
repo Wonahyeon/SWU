@@ -15,6 +15,13 @@ import com.cookandroid.swu.PillSearch;
 import com.cookandroid.swu.R;
 
 public class SearchFragment extends Fragment {
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("검색");
+    }
+
     TextView pill,drugstore;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

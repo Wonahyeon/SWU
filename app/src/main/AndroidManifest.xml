@@ -46,6 +46,10 @@
             android:name=".EboxAdd"
             android:exported="false"
             android:parentActivityName=".EboxAdd"/>
+        <activity
+            android:name=".DruginfoActivity"
+            android:exported="false"
+            android:parentActivityName=".DsSearch"/> //?
 
         <activity android:name=".DsSearch" />
         <activity android:name=".PillSearch"
