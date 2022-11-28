@@ -14,18 +14,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 
 public class ListViewAdapter extends BaseAdapter {
 
-    private FirebaseDatabase database;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>() ;
+    //필터링된 결과 데이터를 저장하기 위한 ArrayList 최초에는 전체 리스트 보유
 
     private TextView name,date,memo;
     private Button ok, yes, no;
@@ -40,8 +35,6 @@ public class ListViewAdapter extends BaseAdapter {
     // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        database=FirebaseDatabase.getInstance();
 
         final int pos = position;
         final Context context = parent.getContext();
@@ -66,7 +59,6 @@ public class ListViewAdapter extends BaseAdapter {
         descTextView.setText(listViewItem.getDesc());
 
         //커스텀다이얼로그 각 위젯 정의
-
         LinearLayout cmdArea = (LinearLayout) convertView.findViewById(R.id.cmdarea);
         cmdArea.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +119,7 @@ public class ListViewAdapter extends BaseAdapter {
                 return false;
             }
         });
+
         return convertView;
     }
 
@@ -159,4 +152,5 @@ public class ListViewAdapter extends BaseAdapter {
 
 
     }
+
 }

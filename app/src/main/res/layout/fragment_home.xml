@@ -33,16 +33,16 @@
 
         <TextView
             android:id="@+id/PName"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="약이름"
-            android:textSize="20dp" />
+            android:textSize="24dp" />
 
         <ImageView
             android:id="@+id/drugTime"
-            android:layout_width="1dp"
-            android:layout_height="25dp"
+            android:layout_width="59dp"
+            android:layout_height="27dp"
             android:layout_weight="1"
             android:src="@drawable/pill" />
 
@@ -56,24 +56,23 @@
         android:paddingVertical="10dp">
 
         <TextView
-            android:id="@+id/Ename"
-            android:layout_width="0dp"
+            android:id="@+id/EName"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="약이름"
-            android:textSize="20dp" />
+            android:textSize="24dp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="버려주세요"
-            android:textSize="20dp" />
+            android:text="  버려주세요"
+            android:textSize="24dp" />
 
         <ImageView
             android:id="@+id/imgBin"
             android:layout_width="0dp"
-            android:layout_height="25dp"
+            android:layout_height="27dp"
             android:layout_weight="1"
             android:src="@drawable/bin" />
     </LinearLayout>

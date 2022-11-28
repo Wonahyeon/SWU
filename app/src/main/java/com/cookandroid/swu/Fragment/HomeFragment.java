@@ -14,12 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.cookandroid.swu.ListViewAdapter;
 import com.cookandroid.swu.MainActivity;
 import com.cookandroid.swu.PlistActivity;
 import com.cookandroid.swu.R;
@@ -45,8 +47,10 @@ public class HomeFragment extends Fragment {
     Context context;
     Button Yes,No;
     public MaterialCalendarView materialCalendarView;
-    public TextView eName;
+    public TextView PName,EName;
 
+    ListView customListView;
+    private static ListViewAdapter listViewAdapter= new ListViewAdapter();
 
 
     @Override
@@ -55,9 +59,15 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         return view;
     }
+
+
     public void onViewCreated(@NonNull View view, Bundle savedInstancedState) {
         super.onViewCreated(view, savedInstancedState);
-        eName = view.findViewById(R.id.Ename);
+        EName = view.findViewById(R.id.EName);
+        PName = view.findViewById(R.id.PName);
+        customListView = (ListView) view.findViewById(R.id.listView_custom);
+        customListView.setAdapter(listViewAdapter);
+
 
         materialCalendarView = view.findViewById(R.id.calendarView);
         materialCalendarView.state().edit()
@@ -88,14 +98,16 @@ public class HomeFragment extends Fragment {
                 return calendarHeaderBuilder.toString();
             }
         });
+
+
         materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 int year = date.getYear();
                 int month = date.getMonth()+1;
                 int day = date.getDay();
-
-
+                PName.setText(year + "년" + month +"월" + day + "일");
+                EName.setText(year + "년" + month +"월" + day + "일");
             }
         });
 
