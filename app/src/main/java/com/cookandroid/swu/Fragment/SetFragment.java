@@ -51,6 +51,7 @@ public class SetFragment extends Fragment {
                 if(isOn){
                     toggle2.setOn(true);
 
+
                 }else{
                     toggle2.setOn(false);
                 }

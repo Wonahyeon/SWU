@@ -1,16 +1,30 @@
 package com.cookandroid.swu;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-@Entity
 public class Ebox {
-    @PrimaryKey(autoGenerate = true) //값 자동으로 생성
-    public int id;
+    String Ename;
+    String Edate;
 
-    @ColumnInfo(name = "ename")
-    public String ename;
+    public Ebox(String ename, String edate) {
+        this.Ename = ename;
+        this.Edate = edate;
+    }
+    public Ebox(){
 
-    @ColumnInfo(name = "ememo")
-    public String ememo;
+    }
+
+    public String getEname() {
+        return Ename;
+    }
+
+    public void setEname(String ename) {
+        this.Ename = ename;
+    }
+
+    public String getEdate() {
+        return Edate;
+    }
+
+    public void setEdate(String edate) {
+        this.Edate = edate;
+    }
 }

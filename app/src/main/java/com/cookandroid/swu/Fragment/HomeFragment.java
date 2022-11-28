@@ -21,10 +21,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.cookandroid.swu.Ebox;
 import com.cookandroid.swu.ListViewAdapter;
 import com.cookandroid.swu.MainActivity;
 import com.cookandroid.swu.PlistActivity;
 import com.cookandroid.swu.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
@@ -47,7 +53,7 @@ public class HomeFragment extends Fragment {
     Context context;
     Button Yes,No;
     public MaterialCalendarView materialCalendarView;
-    public TextView PName,EName;
+    TextView EName,PName;
 
     ListView customListView;
     private static ListViewAdapter listViewAdapter= new ListViewAdapter();
@@ -65,10 +71,6 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstancedState);
         EName = view.findViewById(R.id.EName);
         PName = view.findViewById(R.id.PName);
-        customListView = (ListView) view.findViewById(R.id.listView_custom);
-        customListView.setAdapter(listViewAdapter);
-
-
         materialCalendarView = view.findViewById(R.id.calendarView);
         materialCalendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
@@ -98,6 +100,16 @@ public class HomeFragment extends Fragment {
                 return calendarHeaderBuilder.toString();
             }
         });
+        //firebase
+        FirebaseDatabase Eboxdb,Plistdb;
+        DatabaseReference refEbox,refPlist;
+
+        Eboxdb = FirebaseDatabase.getInstance();
+        refEbox = Eboxdb.getReference("ebox");
+
+        Plistdb = FirebaseDatabase.getInstance();
+        refPlist = Plistdb.getReference("plist");
+
 
 
         materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
@@ -106,10 +118,60 @@ public class HomeFragment extends Fragment {
                 int year = date.getYear();
                 int month = date.getMonth()+1;
                 int day = date.getDay();
-                PName.setText(year + "년" + month +"월" + day + "일");
-                EName.setText(year + "년" + month +"월" + day + "일");
+                int pday = date.getCalendar().SUNDAY;
+                int pday1 = date.getCalendar().MONDAY;
+                int pday2=date.getCalendar().TUESDAY;
+                int pday3 = date.getCalendar().WEDNESDAY;
+                int pday4 = date.getCalendar().THURSDAY;
+                int pday5 = date.getCalendar().FRIDAY;
+                int pday6 = date.getCalendar().SATURDAY;
+
+
+                String selDate = String.format("유통기한 : "+year+" - "+month+" - "+day);
+
+                refEbox.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.child(selDate).exists()){
+                            Ebox e = snapshot.child(selDate).getValue(Ebox.class);
+                            if(e.getEdate().equals(selDate)){
+                                EName.setText(e.getEname()+" 버려주세요!");
+                            }
+                        }
+                        else{
+                            EName.setText("버릴 약이 없네요!");
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+/*plist db관련
+                refPlist.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.child(pday).exists()){
+                            Plist p = snapshot.child(pday).getValue(Plist.class);
+                            if(p.getPday().equals(selDate)){
+                                PName.setText(p.getPname());
+                            }
+                        }
+                        else{
+                            PName.setText("복용할 약이 없네요!");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+ */
             }
         });
+
+
 
 
         context = ((MainActivity) getActivity()).getApplicationContext();

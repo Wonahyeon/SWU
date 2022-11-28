@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="약이름"
-            android:textSize="24dp" />
+            android:textSize="20dp" />
 
         <ImageView
             android:id="@+id/drugTime"
@@ -57,21 +57,17 @@
 
         <TextView
             android:id="@+id/EName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="약이름"
-            android:textSize="24dp" />
-
-        <TextView
+            android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="  버려주세요"
-            android:textSize="24dp" />
+            android:layout_gravity="center_horizontal"
+            android:text="약이름"
+            android:textSize="20dp" />
+
 
         <ImageView
             android:id="@+id/imgBin"
-            android:layout_width="0dp"
+            android:layout_width="29dp"
             android:layout_height="27dp"
             android:layout_weight="1"
             android:src="@drawable/bin" />

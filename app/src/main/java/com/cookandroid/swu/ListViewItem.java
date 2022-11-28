@@ -2,8 +2,6 @@ package com.cookandroid.swu;
 
 import android.graphics.Bitmap;
 
-import androidx.annotation.NonNull;
-
 
 public class ListViewItem {
     private Bitmap iconDrawable ;

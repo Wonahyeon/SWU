@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class ListViewAdapter extends BaseAdapter {
@@ -57,6 +60,12 @@ public class ListViewAdapter extends BaseAdapter {
         iconImageView.setImageBitmap(listViewItem.getIcon());
         titleTextView.setText(listViewItem.getTitle());
         descTextView.setText(listViewItem.getDesc());
+
+        //파이어베이스-Ebox listviewadapter
+        FirebaseDatabase Itemdb;
+        DatabaseReference refItem;
+        Itemdb = FirebaseDatabase.getInstance();
+        refItem = Itemdb.getReference("itemdb");
 
         //커스텀다이얼로그 각 위젯 정의
         LinearLayout cmdArea = (LinearLayout) convertView.findViewById(R.id.cmdarea);

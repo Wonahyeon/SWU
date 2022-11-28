@@ -20,12 +20,10 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,6 +37,8 @@ import androidx.core.content.FileProvider;
 
 import com.cookandroid.swu.Fragment.EboxFragment;
 import com.google.android.gms.common.util.IOUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -47,10 +47,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class EboxAdd extends AppCompatActivity {
 
@@ -61,7 +59,7 @@ public class EboxAdd extends AppCompatActivity {
     Bitmap photo;
     static String ebox_date, ebox_name, ebox_sympton, ebox_memo;
     private EditText eboxname, eboxsympton,eboxmemo;
-    ListView lv_ebox;
+
 
     //날짜 선택
     private Calendar c = Calendar.getInstance();
@@ -85,6 +83,7 @@ public class EboxAdd extends AppCompatActivity {
         EboxFragment tf = (EboxFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
 
+
         //접근 확인
         boolean hasCamPerm = checkSelfPermission(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
         boolean hasWritePerm = checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
@@ -97,7 +96,6 @@ public class EboxAdd extends AppCompatActivity {
         eboxname=(EditText)findViewById(R.id.ebox_name);
         eboxmemo=(EditText)findViewById(R.id.ebox_memo);
         eboxsympton=(EditText)findViewById(R.id.ebox_sympton);
-        lv_ebox = (ListView)findViewById(R.id.listView_custom);
         //camera
         view1.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("QueryPermissionsNeeded")
@@ -135,6 +133,7 @@ public class EboxAdd extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
                 dateview.setText(year + " - " + (month + 1) + " - " + dayOfMonth);
                 ebox_date = String.format("유통기한 : " + year + " - " + (month + 1) + " - " + dayOfMonth);
             }
@@ -151,34 +150,24 @@ public class EboxAdd extends AppCompatActivity {
             }
         }); //setonclicklistener
 
-        List<String> list = new ArrayList<>();
-        //데이터 베이스 가져옴
-        EboxDatabase eboxDatabase = EboxDatabase.getAppDatabase(this);
-        //데이터베이스에 저장된 값을 가져옴
-        List<String> ebox_name = eboxDatabase.eboxDao().geteEnameAll();
-        List<String> ebox_memo = eboxDatabase.eboxDao().getEmemoAll();
-        String[] name_array = ebox_name.toArray(new String[ebox_name.size()]);
-        String[] memo_array = ebox_memo.toArray(new String[ebox_memo.size()]);
+        //파이어베이스-Ebox
+        FirebaseDatabase Eboxdb;
+        DatabaseReference refEbox;
+        Eboxdb = FirebaseDatabase.getInstance();
+        refEbox = Eboxdb.getReference("ebox");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,R.layout.activity_ebox_add,list);
-        lv_ebox.setAdapter(adapter);
 
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String ebox_name = eboxname.getText().toString();
-                String ebox_memo = eboxmemo.getText().toString();
-
-                if(!ebox_name.equals("")&&!ebox_memo.equals("")){
-                    Ebox new_ebox = new Ebox();
-                    new_ebox.ename = ebox_name;
-                    new_ebox.ememo = ebox_memo;
-                    eboxDatabase.eboxDao().insertAll(new_ebox);
-
-                    adapter.notifyDataSetChanged();
-                }
+                ebox_name = eboxname.getText().toString();
+                ebox_memo = eboxmemo.getText().toString();
                 ebox_sympton = "증상 : " + eboxsympton.getText().toString();
                 tf.addItem(photo,ebox_name,ebox_sympton,ebox_date,ebox_memo);
+                String Ename = eboxname.getText().toString();
+                String Edate = ebox_date;
+                Ebox ebox = new Ebox(Ename,Edate);
+                refEbox.child(Edate).setValue(ebox);
                 finish();
             }
         });
@@ -342,7 +331,7 @@ public class EboxAdd extends AppCompatActivity {
 
 
                 // 압축시킨다. 해상도 낮춰서
-                 photo = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                photo = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 OutputStream os;
                 try {
                     os = new FileOutputStream(photoFile);
@@ -352,7 +341,7 @@ public class EboxAdd extends AppCompatActivity {
                 } catch (Exception e) {
                     Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
                 }
-               // InputStream inputStream1 = getContentResolver().openInputStream(albumUri);
+                // InputStream inputStream1 = getContentResolver().openInputStream(albumUri);
                 //photo = BitmapFactory.decodeStream(inputStream1);
                 //inputStream.close();
                 view1.setImageBitmap(photo);

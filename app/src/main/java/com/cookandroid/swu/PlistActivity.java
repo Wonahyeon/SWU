@@ -460,6 +460,8 @@ public class PlistActivity extends AppCompatActivity {
                 // 약 이름, 메모 저장
                 plName = plistEdtName.getText().toString();
                 plMemo = plistEdtRealMemo.getText().toString();
+
+
                 Bitmap plBitmap = null;
                 if(bitmap == null) plBitmap = null; // 사진을 찍거나 고르지 않았으면 null로 저장
                 else plBitmap = bitmap;

@@ -30,7 +30,6 @@ public class EboxFragment extends Fragment {
     private static ListViewAdapter listViewAdapter= new ListViewAdapter();
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
