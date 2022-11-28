@@ -68,6 +68,7 @@ public class PillSearch extends AppCompatActivity {
         ac.setDisplayHomeAsUpEnabled(true);
         ac.setTitle("약 이름으로 검색하기"); //actionbar추가
 
+        list = new ArrayList<>();
 
         edit = (EditText) findViewById(R.id.edit);
         imageView = (ImageView) findViewById(R.id.list_image);
@@ -83,7 +84,6 @@ public class PillSearch extends AppCompatActivity {
 
         // progressDialog 객체 선언
         progressDialog = new ProgressDialog(this);
-
 
     }
 
@@ -133,7 +133,6 @@ public class PillSearch extends AppCompatActivity {
                     // 이 경우를 막기 위해 안드로이드 개발자들은 핸들러라는 것을 만들어서 쓰는 것이다.
 
                     @Override
-
                     public void run() {
                         // TODO Auto-generated method stub
                         //아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
@@ -194,7 +193,7 @@ public class PillSearch extends AppCompatActivity {
 
 
                 //공공데이터 파싱을 위한 주소
-                requestDrugUrl = "https://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService01/getMdcinGrnIdntfcInfoList01?serviceKey="
+                requestDrugUrl = "http://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService01/getMdcinGrnIdntfcInfoList01?serviceKey="//요청 URL
                         + key  + "&numOfRows=100&item_name=" + drugSearch; //약 이름으로 검색 하기.
                 Log.d("로그",requestDrugUrl);
                 //실질적으로 파싱해서 inputstream해주는 코드
@@ -226,8 +225,6 @@ public class PillSearch extends AppCompatActivity {
                             if (parser.getName().equals("item")) {//TAG명이 item일 때 Drug를 초기화 해줌
                                 nameDrug = new NameDrug();
                             }
-                            //Tag가 시작될 때 다 true로 변경함
-
                             if (parser.getName().equals("ITEM_NAME")) drugName = true;
                             if (parser.getName().equals("ENTP_NAME")) company = true;
                             if (parser.getName().equals("ITEM_IMAGE")) image = true;
