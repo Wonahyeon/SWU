@@ -19,16 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="증상으로 약 추천"
-                android:textSize="30sp"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:layout_marginStart="10dp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -36,7 +26,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_weight="30"
         android:orientation="vertical">
 
         <Button

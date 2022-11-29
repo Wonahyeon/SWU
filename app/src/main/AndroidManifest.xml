@@ -45,10 +45,12 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".RecomSearchActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".DsSearch"/>
         <activity
             android:name=".RecomMainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".DsSearch"/>
         <activity
             android:name=".EboxAdd"
             android:exported="false"
