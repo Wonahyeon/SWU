@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.cookandroid.swu.DsSearch;
 import com.cookandroid.swu.PillSearch;
 import com.cookandroid.swu.R;
+import com.cookandroid.swu.RecomMainActivity;
 
 public class SearchFragment extends Fragment {
 
@@ -22,7 +23,7 @@ public class SearchFragment extends Fragment {
         getActivity().setTitle("검색");
     }
 
-    TextView pill,drugstore;
+    TextView pill,drugstore, recom_pill;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,7 +45,14 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
+        recom_pill = (TextView)v.findViewById(R.id.search_recompill);
+        recom_pill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RecomMainActivity.class);
+                startActivity(intent);
+            }
+        });
         return v;
     }
 }
