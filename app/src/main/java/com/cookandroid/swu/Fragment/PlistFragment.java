@@ -28,6 +28,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PlistFragment extends Fragment{
@@ -35,6 +36,7 @@ public class PlistFragment extends Fragment{
     FloatingActionButton fabAdd;
 //    final int REQUESTCODE_REVIEW_WRITE = 3;
     public static AdapterPlistTime plAdapter = new AdapterPlistTime();
+    public static HashMap<String, Boolean> check = new HashMap<String, Boolean>();
 
 
     @Nullable

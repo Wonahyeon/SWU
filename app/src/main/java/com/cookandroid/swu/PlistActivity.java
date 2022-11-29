@@ -299,7 +299,10 @@ public class PlistActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     // count 개수를 세서 한 번 클릭하면 pressed 상태, 두 번 클릭하면 not pressed 상태로 변경
-                    if(count[index] > 0) count[index] = 0;
+//                    if(count[index] > 0) {
+//                        count[index] = 0;
+//
+//                    }
                     count[index] += 1;
                     if(count[index] % 2 == 1) {
                         btnDay[index].setSelected(true);

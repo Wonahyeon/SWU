@@ -20,16 +20,16 @@ public class ListViewItemPlistTime {
     public void setDay(String day) { this.plItemDay = day; }
     public void setMemo(String memo) {this.plMemo = memo;}
     public void setTime1(String time) { this.plTime1 = time; this.cPlTime1 = time; }
-    public void setChangedTime1(String time) { this.cPlTime1 = time;}
-    public void setTime2(String time) { this.plTime2 = time; }
+    public void setChangedTime1(String time) { this.cPlTime1 = time; }
+    public void setTime2(String time) { this.plTime2 = time; this.cPlTime2 = time;}
     public void setChangedTime2(String time) { this.cPlTime2 = time;}
-    public void setTime3(String time) { this.plTime3 = time; }
+    public void setTime3(String time) { this.plTime3 = time; this.cPlTime3 = time; }
     public void setChangedTime3(String time) { this.cPlTime3 = time;}
-    public void setTime4(String time) { this.plTime4 = time; }
+    public void setTime4(String time) { this.plTime4 = time; this.cPlTime4 = time; }
     public void setChangedTime4(String time) { this.cPlTime4 = time;}
-    public void setTime5(String time) { this.plTime5 = time; }
+    public void setTime5(String time) { this.plTime5 = time; this.cPlTime5 = time; }
     public void setChangedTime5(String time) { this.cPlTime5 = time;}
-    public void setTime6(String time) { this.plTime6 = time; }
+    public void setTime6(String time) { this.plTime6 = time; this.cPlTime6 = time; }
     public void setChangedTime6(String time) { this.cPlTime6 = time;}
     public void setListCount(Integer count) { this.plListCount = count; }
 
