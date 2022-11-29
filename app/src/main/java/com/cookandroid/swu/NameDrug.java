@@ -15,41 +15,28 @@ public class NameDrug {
     public String getClassName() {
         return className;
     }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    public String getEtcOtcName() {
-        return etcOtcName;
-    }
-
-    public void setEtcOtcName(String etcOtcName) {
-        this.etcOtcName = etcOtcName;
-    }
-
+    public String getEtcOtcName() { return etcOtcName; }
     public Bitmap getImage() {
         return image;
     }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
-    }
-
-    public String getDrugName() {
-        return drugName;
-    }
-
-    public void setDrugName(String drugName) {
-        this.drugName = drugName;
-    }
-
+    public String getDrugName() { return drugName; }
     public String getCompany() {
         return company;
     }
 
+    public void setClassName(String className) { this.className = className; }
+    public void setEtcOtcName(String etcOtcName) {
+        this.etcOtcName = etcOtcName;
+    }
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+    public void setDrugName(String drugName) {
+        this.drugName = drugName;
+    }
     public void setCompany(String company) {
         this.company = company;
     }
+
 
 }

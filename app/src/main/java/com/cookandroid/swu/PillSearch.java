@@ -2,7 +2,6 @@ package com.cookandroid.swu;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -54,19 +53,10 @@ public class PillSearch extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     @Override
-    public void onBackPressed() {
-        // 버튼을 누르면 메인화면으로 이동
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
-        super.onBackPressed();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_pill);
+
         ActionBar ac=getSupportActionBar();
         ac.setDisplayHomeAsUpEnabled(true);
         ac.setTitle("약 이름으로 검색하기"); //actionbar추가
@@ -87,10 +77,6 @@ public class PillSearch extends AppCompatActivity {
 
         // progressDialog 객체 선언
         progressDialog = new ProgressDialog(this);
-
-        adapter = new NameAdapter(getApplicationContext(), list);//앞의 인자는 application context를 제공하며, 뒤에 인자는 위에서 값을 넣어준 list.
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();//어댑터에 연결된 항목들을 갱신함.
 
     }
 
@@ -159,9 +145,9 @@ public class PillSearch extends AppCompatActivity {
                     }
                 }).start();
             }
-
         }
     }
+
 
     //MyAsyncTask의 첫번째 인자는 doInBackground의 파라미터 타입이 될것이다.
     //두번째 인자는 doInBackground 작업 시 진행 단위의 타입
@@ -200,7 +186,7 @@ public class PillSearch extends AppCompatActivity {
 
 
                 //공공데이터 파싱을 위한 주소
-                requestDrugUrl = "https://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService01/getMdcinGrnIdntfcInfoList01?serviceKey="
+                requestDrugUrl = "http://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService01/getMdcinGrnIdntfcInfoList01?serviceKey="//요청 URL
                         + key  + "&numOfRows=100&item_name=" + drugSearch; //약 이름으로 검색 하기.
                 Log.d("로그",requestDrugUrl);
                 //실질적으로 파싱해서 inputstream해주는 코드
@@ -221,7 +207,7 @@ public class PillSearch extends AppCompatActivity {
                 while (eventType != XmlPullParser.END_DOCUMENT) {
                     switch (eventType) {
                         case XmlPullParser.START_DOCUMENT://eventType이 START_DOCUMENT일 경우
-                            // list = new ArrayList<>();//배열을 선언해줌
+                            list = new ArrayList<>();//배열을 선언해줌
                             break;
                         case XmlPullParser.END_TAG://eventType이 END_TAG일 경우, 태그가 끝나는 부분
                             if (parser.getName().equals("item") && nameDrug != null) {//Tag 이름이 item일경우
@@ -232,8 +218,6 @@ public class PillSearch extends AppCompatActivity {
                             if (parser.getName().equals("item")) {//TAG명이 item일 때 Drug를 초기화 해줌
                                 nameDrug = new NameDrug();
                             }
-                            //Tag가 시작될 때 다 true로 변경함
-
                             if (parser.getName().equals("ITEM_NAME")) drugName = true;
                             if (parser.getName().equals("ENTP_NAME")) company = true;
                             if (parser.getName().equals("ITEM_IMAGE")) image = true;
@@ -286,6 +270,7 @@ public class PillSearch extends AppCompatActivity {
         }
 
         @Override
+
         protected void onPostExecute (String s){//adapter를 연결해주는 부분. 이 코드를 이용해 AsyncTask를 실행한다.
             //결과 파라미터를 리턴하면서 그 리턴값을 통해 스레드 작업이 끝났을 때의 동작을 구현합니다.
 
@@ -296,9 +281,9 @@ public class PillSearch extends AppCompatActivity {
 
 
             //어답터 연결.
-           /* adapter = new NameAdapter(getApplicationContext(), list);//앞의 인자는 application context를 제공하며, 뒤에 인자는 위에서 값을 넣어준 list.
+            adapter = new NameAdapter(getApplicationContext(), list);//앞의 인자는 application context를 제공하며, 뒤에 인자는 위에서 값을 넣어준 list.
             recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();//어댑터에 연결된 항목들을 갱신함.*/
+            adapter.notifyDataSetChanged();//어댑터에 연결된 항목들을 갱신함.
 
 
             if (list.size() != 0) {

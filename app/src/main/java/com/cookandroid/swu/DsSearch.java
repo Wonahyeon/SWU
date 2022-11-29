@@ -211,13 +211,13 @@ public class DsSearch extends AppCompatActivity
                 Log.d(TAG, "onLocationResult : " + markerSnippet);
 
                 mark();
-                mCurrentLocation = location;
 
                 mBtnMyLocation.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //현재 위치에 마커 생성하고 이동
                         setCurrentLocation(location, markerTitle, markerSnippet);
+                        mCurrentLocation = location;
                     }
                 });
 

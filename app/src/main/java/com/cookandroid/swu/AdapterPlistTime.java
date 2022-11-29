@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +17,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+
+import static com.cookandroid.swu.Fragment.PlistFragment.check;
 
 public class AdapterPlistTime extends BaseAdapter{
     String memo, day;
     // 버튼이 체크되었는지 확인
-    HashMap<String, Integer> check = new HashMap<String, Integer>();
-    // 버튼이 체크되었으면 당시 getTime변수를 가져옴, 아니면 미리 지정해둔 listviewitem의 getPlTime1(), .. 이용
-    HashMap<String, String> time = new HashMap<String, String>();
+
+
 
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<ListViewItemPlistTime> listViewItemList = new ArrayList<ListViewItemPlistTime>();
@@ -77,12 +77,17 @@ public class AdapterPlistTime extends BaseAdapter{
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         final ListViewItemPlistTime listViewItem = listViewItemList.get(position);
 
+
         // 아이템 내 각 위젯에 데이터 반영
         plistLvImg.setImageBitmap(listViewItem.getBitmap());
         plistLvtName.setText(listViewItem.getName());
         memo = listViewItem.getMemo();
         day = listViewItem.getDay();
         Integer btnListCount = listViewItem.getPlListCount();
+
+        // 11/27 (일) 삭제 하나 할 때는 괜찮은데 여러개를 계속 삭제하면 버튼 속의 내용이 바뀌어보임
+        // 버튼 속의 내용이 아니라 버튼 pill / pill_fill 부분이 이전 데이터에서 넘어옴
+        // 삭제된 부분의 pill / pill_fill 데이터가 삭제되지 않고 남아있는 것 같음
 
         // 해당 요일이면 시간 버튼을 보여줌
         if (day.contains(getDay)) {
@@ -96,6 +101,12 @@ public class AdapterPlistTime extends BaseAdapter{
                             case 0:
                                 btnTime[0].setVisibility(View.VISIBLE);
                                 btnTime[0].setText(listViewItem.getChangedTime1());
+                                if((check.get(position+"_"+0)!=null) && (check.get(position+"_"+0))){
+                                    btnTime[0].setBackgroundResource(R.drawable.pill_fill);
+                                    Log.d("체크1",(index+check.get(position+"_"+index).toString()));
+                                }
+                                else if((check.get(position+"_"+0)==null) || (!check.get(position+"_"+0)))
+                                    btnTime[0].setBackgroundResource(R.drawable.pill);
                                 break;
                             default:
                                 btnTime[index].setVisibility(View.GONE); break;
@@ -108,10 +119,19 @@ public class AdapterPlistTime extends BaseAdapter{
                             case 0:
                                 btnTime[0].setVisibility(View.VISIBLE);
                                 btnTime[0].setText(listViewItem.getChangedTime1());
+                                if((check.get(position+"_"+index)!=null) && (check.get(position+"_"+index)))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if((check.get(position+"_"+index)==null) || (!check.get(position+"_"+index)))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
                                 break;
                             case 1:
                                 btnTime[1].setVisibility(View.VISIBLE);
                                 btnTime[1].setText(listViewItem.getChangedTime2());
+                                if((check.get(position+"_"+1)!=null) && (check.get(position+"_"+1))) {
+                                    btnTime[1].setBackgroundResource(R.drawable.pill_fill);
+                                }
+                                else if((check.get(position+"_"+1)==null) || (!check.get(position+"_"+1)))
+                                    btnTime[1].setBackgroundResource(R.drawable.pill);
                                 break;
                             default:
                                 btnTime[index].setVisibility(View.GONE); break;
@@ -124,14 +144,37 @@ public class AdapterPlistTime extends BaseAdapter{
                             case 0:
                                 btnTime[0].setVisibility(View.VISIBLE);
                                 btnTime[0].setText(listViewItem.getChangedTime1());
+                                if((check.get(position+"_"+index)!=null) && (check.get(position+"_"+index)))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if((check.get(position+"_"+index)==null) || (!check.get(position+"_"+index)))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
                                 break;
                             case 1:
                                 btnTime[1].setVisibility(View.VISIBLE);
                                 btnTime[1].setText(listViewItem.getChangedTime2());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
                                 break;
                             case 2:
                                 btnTime[2].setVisibility(View.VISIBLE);
                                 btnTime[2].setText(listViewItem.getChangedTime3());
+                                if((check.get(position+"_"+index)!=null) && (check.get(position+"_"+index))){
+//                                    for(int j= 0;j<btnListCount;j++) {
+//                                        if(j==index)
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+//                                        else if (check.get(position + "_" + j) != null && (!check.get(position + "_" + j))){
+//                                            btnTime[index].setBackgroundResource(R.drawable.pill);
+//                                        }
+//                                        else if(check.get(position + "_" + j) != null && (check.get(position + "_" + j))){
+//                                            btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+//                                        }
+//                                    }
+                                }
+                                else if((check.get(position+"_"+index)==null) || (!check.get(position+"_"+index))) {
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
+                                }
                                 break;
                             default:
                                 btnTime[index].setVisibility(View.GONE); break;
@@ -144,18 +187,34 @@ public class AdapterPlistTime extends BaseAdapter{
                             case 0:
                                 btnTime[0].setVisibility(View.VISIBLE);
                                 btnTime[0].setText(listViewItem.getChangedTime1());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
                                 break;
                             case 1:
                                 btnTime[1].setVisibility(View.VISIBLE);
                                 btnTime[1].setText(listViewItem.getChangedTime2());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
                                 break;
                             case 2:
                                 btnTime[2].setVisibility(View.VISIBLE);
                                 btnTime[2].setText(listViewItem.getChangedTime3());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
                                 break;
                             case 3:
                                 btnTime[3].setVisibility(View.VISIBLE);
                                 btnTime[3].setText(listViewItem.getChangedTime4());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
                                 break;
                             default:
                                 btnTime[index].setVisibility(View.GONE); break;
@@ -168,22 +227,42 @@ public class AdapterPlistTime extends BaseAdapter{
                             case 0:
                                 btnTime[0].setVisibility(View.VISIBLE);
                                 btnTime[0].setText(listViewItem.getChangedTime1());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
                                 break;
                             case 1:
                                 btnTime[1].setVisibility(View.VISIBLE);
                                 btnTime[1].setText(listViewItem.getChangedTime2());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
                                 break;
                             case 2:
                                 btnTime[2].setVisibility(View.VISIBLE);
                                 btnTime[2].setText(listViewItem.getChangedTime3());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
                                 break;
                             case 3:
                                 btnTime[3].setVisibility(View.VISIBLE);
                                 btnTime[3].setText(listViewItem.getChangedTime4());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
                                 break;
                             case 4:
                                 btnTime[4].setVisibility(View.VISIBLE);
                                 btnTime[4].setText(listViewItem.getChangedTime5());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);
                                 break;
                             default:
                                 btnTime[index].setVisibility(View.GONE); break;
@@ -195,17 +274,41 @@ public class AdapterPlistTime extends BaseAdapter{
                         btnTime[index].setVisibility(View.VISIBLE);
                         switch (index){
                             case 0:
-                                btnTime[index].setText(listViewItem.getChangedTime1()); break;
+                                btnTime[index].setText(listViewItem.getChangedTime1());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);break;
                             case 1:
-                                btnTime[index].setText(listViewItem.getChangedTime2()); break;
+                                btnTime[index].setText(listViewItem.getChangedTime2());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill);break;
                             case 2:
-                                btnTime[index].setText(listViewItem.getChangedTime3()); break;
+                                btnTime[index].setText(listViewItem.getChangedTime3());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill); break;
                             case 3:
-                                btnTime[index].setText(listViewItem.getChangedTime4()); break;
+                                btnTime[index].setText(listViewItem.getChangedTime4());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill); break;
                             case 4:
-                                btnTime[index].setText(listViewItem.getChangedTime5()); break;
+                                btnTime[index].setText(listViewItem.getChangedTime5());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill); break;
                             case 5:
-                                btnTime[index].setText(listViewItem.getChangedTime6()); break;
+                                btnTime[index].setText(listViewItem.getChangedTime6());
+                                if(check.get(position+"_"+index)!=null && check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill_fill);
+                                else if(check.get(position+"_"+index)==null || !check.get(position+"_"+index))
+                                    btnTime[index].setBackgroundResource(R.drawable.pill); break;
                         }
                     }
             }
@@ -232,33 +335,46 @@ public class AdapterPlistTime extends BaseAdapter{
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             btnTime[index].setBackgroundResource(R.drawable.pill_fill);
-                            btnTime[index].setText(getTime);
-                            listViewItem.setChangedTime1(getTime);
+                            check.put(position + "_" + index, true);
+                            if (check.get(position + "_" + index)) {
+                                btnTime[index].setText(getTime);
+                                switch (index) {
+                                    case 0:
+                                        listViewItem.setChangedTime1(getTime);break;
+                                    case 1:
+                                        listViewItem.setChangedTime2(getTime);break;
+                                    case 2:
+                                        listViewItem.setChangedTime3(getTime);break;
+                                    case 3:
+                                        listViewItem.setChangedTime4(getTime);break;
+                                    case 4:
+                                        listViewItem.setChangedTime5(getTime);break;
+                                    case 5:
+                                        listViewItem.setChangedTime6(getTime);break;
+                                }
+                            }
                         }
                     });
                     dialog.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             btnTime[index].setBackgroundResource(R.drawable.pill);
-                            switch (index){
-                                case 0:
-                                    btnTime[index].setText(listViewItem.getTime1());
-                                    check.put(listViewItemList.size()+"_"+index, 0); break; // 먹지 않았으면 체크 X ( = 0 )
-                                case 1:
-                                    btnTime[index].setText(listViewItem.getTime2());
-                                    check.put(listViewItemList.size()+"_"+index, 0); break;
-                                case 2:
-                                    btnTime[index].setText(listViewItem.getTime3());
-                                    check.put(listViewItemList.size()+"_"+index, 0); break;
-                                case 3:
-                                    btnTime[index].setText(listViewItem.getTime4());
-                                    check.put(listViewItemList.size()+"_"+index, 0); break;
-                                case 4:
-                                    btnTime[index].setText(listViewItem.getTime5());
-                                    check.put(listViewItemList.size()+"_"+index, 0); break;
-                                case 5:
-                                    btnTime[index].setText(listViewItem.getTime6());
-                                    check.put(listViewItemList.size()+"_"+index, 0); break;
+                            check.put(position+"_"+index, false);
+                            if (!check.get(position+"_"+index)){
+                                switch (index) {
+                                    case 0:
+                                        btnTime[0].setText(listViewItem.getTime1());break;
+                                    case 1:
+                                        btnTime[1].setText(listViewItem.getTime2());break;
+                                    case 2:
+                                        btnTime[2].setText(listViewItem.getTime3());break;
+                                    case 3:
+                                        btnTime[3].setText(listViewItem.getTime4());break;
+                                    case 4:
+                                        btnTime[4].setText(listViewItem.getTime5());break;
+                                    case 5:
+                                        btnTime[5].setText(listViewItem.getTime6());break;
+                                }
                             }
 
                         }
@@ -319,7 +435,20 @@ public class AdapterPlistTime extends BaseAdapter{
                 plBtnYes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listViewItemList.remove(pos);
+                        // 삭제하면 버튼 시간들 바뀌고 이상해짐 약간 밀리는 느낌?
+                        int j = position;
+                        // 현재 버튼의 check를 이후 버튼의 check로 변경
+                        while (j < listViewItemList.size()) {
+                            for(int i = 0;i < 6;i++) {
+                                if(j == listViewItemList.size()-1)
+                                    check.put(j+"_"+i, false);
+                                else {
+                                    check.put(j + "_" + i, check.get(j + 1 + "_" + i));
+                                }
+                            }
+                            j++;
+                        }
+                        listViewItemList.remove(position);
                         notifyDataSetChanged();
                         dialog.dismiss();
                     }
@@ -362,4 +491,6 @@ public class AdapterPlistTime extends BaseAdapter{
 
         listViewItemList.add(item);
     }
+
+
 }

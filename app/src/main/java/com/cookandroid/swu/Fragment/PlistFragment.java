@@ -17,11 +17,14 @@ import com.cookandroid.swu.AdapterPlistTime;
 import com.cookandroid.swu.PlistActivity;
 import com.cookandroid.swu.R;
 
+import java.util.HashMap;
+
 public class PlistFragment extends Fragment{
     ListView lvPlist;
     Button fabAdd;
     //    final int REQUESTCODE_REVIEW_WRITE = 3;
     public static AdapterPlistTime plAdapter = new AdapterPlistTime();
+    public static HashMap<String, Boolean> check = new HashMap<String, Boolean>();
 
 
     @Nullable

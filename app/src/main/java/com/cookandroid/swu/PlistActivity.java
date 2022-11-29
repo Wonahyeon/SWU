@@ -294,7 +294,10 @@ public class PlistActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     // count 개수를 세서 한 번 클릭하면 pressed 상태, 두 번 클릭하면 not pressed 상태로 변경
-                    if(count[index] > 0) count[index] = 0;
+//                    if(count[index] > 0) {
+//                        count[index] = 0;
+//
+//                    }
                     count[index] += 1;
                     if(count[index] % 2 == 1) {
                         btnDay[index].setSelected(true);
@@ -460,8 +463,6 @@ public class PlistActivity extends AppCompatActivity {
                 // 약 이름, 메모 저장
                 plName = plistEdtName.getText().toString();
                 plMemo = plistEdtRealMemo.getText().toString();
-
-
                 Bitmap plBitmap = null;
                 if(bitmap == null) plBitmap = null; // 사진을 찍거나 고르지 않았으면 null로 저장
                 else plBitmap = bitmap;

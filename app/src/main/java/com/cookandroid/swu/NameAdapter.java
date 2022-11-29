@@ -1,8 +1,5 @@
 package com.cookandroid.swu;
 
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,10 +25,11 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.time.Instant;
 import java.util.ArrayList;
 
-public class NameAdapter extends RecyclerView.Adapter<NameAdapter.MyViewHolder>{
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
+public class NameAdapter extends RecyclerView.Adapter<NameAdapter.MyViewHolder> {
     private static final String sort = "name";
 
     private String drugString;
@@ -70,7 +68,7 @@ public class NameAdapter extends RecyclerView.Adapter<NameAdapter.MyViewHolder>{
 
 
     @Override//재활용 되는 뷰가 호출하여 실행되는 메서드. 뷰 홀더를 전달하고 어댑터는 postion의 데이터를 결합시킴
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull final NameAdapter.MyViewHolder holder, int position) {
         //각 item에 대한 매칭을함.
         //arrayList가 NameDrug에 연결해놓았음. NameMainactivity에서 파싱한 데이터를 받아옴.NameMainactivity에서 NameDrug객체가 있는 arrayList에 담아서 adapter쪽으로 쏨
         //그러면 onBindViewHolder여기서 그것을 받아 glide로 load하게됨
@@ -173,7 +171,7 @@ public class NameAdapter extends RecyclerView.Adapter<NameAdapter.MyViewHolder>{
         //공공데이터 파싱을 위한 주소
         //약국 공공데이터 서비스키
         String key = "JZzijI7hScBtqZ%2BLSVE4YZxQQaV3Huttq3lVbLrx4k%2BwY3DuvVgg7Aed%2FCzJcZcQLZ6MACrD60kOCPo9BPKcHw%3D%3D";
-        String requestUrl = "https://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService02/getDrugPrdtPrmsnDtlInq01?serviceKey="//요청 URL
+        String requestUrl = "http://apis.data.go.kr/1471000/DrugPrdtPrmsnInfoService02/getDrugPrdtPrmsnDtlInq01?serviceKey="//요청 URL
                 + key + "&item_name=" + searchString; //약 이름으로 검색
         Log.e("drugSearch : ", requestUrl);
 
@@ -315,4 +313,5 @@ public class NameAdapter extends RecyclerView.Adapter<NameAdapter.MyViewHolder>{
         }
         return buffer.toString();//buffer를 String형식으로 return해줌
     }
+
 }
